@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>封装Ajax</title>
+ </head>
+ <body>
+    <script>
+	    /*
+		  组织参数:
+		      obj{
+			     mathod:post/get,
+                 url:"请求路径",
+				 params:{key1:value1,key2:value2,...},
+				 isAsyc:true/false,
+				 obj.success:function(data),
+				 obj.error:function(msg)
+			  }
+		*/
+	    function Ajax(obj,fn){
+			//创建异步对象
+		    var xhr;
+			if(window.XMLHttpRequest){
+			    xhr = new XMLHttpRequest();
+			}else{
+			    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		    //链接服务器
+			if(obj.method=="GET"){    //get	请求
+			    if(obj.params){	
+				   xhr.open("GET",obj.url+"?random="+new Date().getTime()+"&"+getStr(obj.params),obj.isAsyc);
+				}else{
+				   xhr.open("GET",obj.url+"?random="+new Date().getTime(),obj.isAsyc);
+				}
+				xhr.send();
+			}else{                    //post请求
+			    xhr.open("POST",obj.url,obj.isAsyc);
+				var params = getStr(obj.params);
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.send(params);
+			}
+
+			if(obj.isAsyc){
+			   xhr.onreadystatechange = function(){
+			      hander();
+			   }
+			}else{
+			      hander();
+			}
+            //处理请求的响应
+			function  hander(){
+			        if(xhr.readyState==4){
+					    if(xhr.status==200){
+						    obj.success(xhr.responseText);
+						}else{
+						    obj.error(xhr.status);
+						}
+					}
+			}
+
+		   function getStr(params){
+		         var arr = [];
+				 for(var item in params){
+				    arr.push(item+"="+params[item]);
+				 }
+				 var str = arr.jion("&");
+				 return str;
+		   }
+    
+		}
+	</script>
+ </body>
+</html>

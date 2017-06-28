@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus?">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+<style type="text/css"> 
+#outerCircleText {
+		font-style: italic;
+		font-weight: bold;
+		font-family: '宋体';
+		color: #00FF00;
+		position: absolute;top: 0;left: 0;z-index: 3000;cursor: default;
+		}
+#outerCircleText div {
+        position: relative;
+		}
+#outerCircleText div div {
+        position: absolute;
+		top: 0;
+		left: 0;
+		text-align: center;
+		}
+</style>
+<script type="text/javascript"> 
+	/*
+		  自调用函数
+		  形式：
+		  (function(){})();
+	*/
+	 /*
+	   思路：
+		  1.页面加载完毕后，创建节点div，并给每个div一个id，并设置该div样式(width,height),
+			每个div创建一个文本节点createTextNode用来存储一个汉字
+		  2.页面加载完毕后，给字体位置一个初始值：ymouse = a * circleY + 20；xmouse = a * circleX + 20
+		    给鼠标添加一个鼠标移动的监听事件，让创建的文本节点跟随鼠标移动，同时记录下其移动的位置
+		  3.让文本节点围绕以鼠标为中心的椭圆轨迹上运动;
+
+	 */
+	(function(){
+			var msg = "baby不要再哭泣，这一幕多么熟悉，紧握着你的手彼此都舍不得分离，每一次想开口但不如保持安静，给我一分钟专心好好欣赏你的美，幸福搭配悲伤，痛是在我心交叉，挫折的眼泪不能测试爱的重量，付出的爱收不回，还欠你的我不能给，别把我心也带走去跟随，每一次和你分开，深深的被你打败，每一次放弃你的温柔，痛苦难以释怀，每一次kiss you goodbye ";					
+			var size = 24;                //字体大小
+			var circleY = 0.75;           //椭圆的高的参数   
+			var circleX = 2;			  //椭圆的宽的参数(相当于宽高比例) 	
+			var letter_spacing = 5;       //字体间距													
+			var speed = 0.3;              //字体到该鼠标位置的速度					
+			msg = msg.split('');          //将msg字符串拆割					
+			var n = msg.length - 1;       //分割次数n,可作为索引值
+			//设置参数a把椭圆撑开
+			var a = 60 ;			
+			//给鼠标一个初始值
+			var ymouse = a * circleY + 20;
+			var xmouse = a * circleX + 20;
+			var y = [], x = [], Y = [], X = [];					 
+			var o = document.createElement('div');	//创建节点o，oi				
+			o.id = 'outerCircleText';               //给节点o添加一个id
+			var oi = document.createElement('div');					
+			//设置节点o的字体大小
+			o.style.fontSize = size + 'px';
+			var b = document.body;
+			//创建匿名函数，获取窗口的宽高					
+			var mouse = function(e){
+			 e = e || window.event;
+			 ymouse = e.clientY; // y-position
+			 xmouse = e.clientX; // x-position
+			};
+		   
+			/*
+			  初始化函数:
+				  功能：为每个拆分后的msgi创建一个节点对象div，同时设置该节点的width,height属性
+						节点内容msg[i],并为每个节点对象添加一个id名,并将该节点追加到oi节点中,
+						将oi节点添加到document节点中						        
+			*/
+			var init = function(){ 
+			  for (var i = n; i > -1; --i){
+				  var d = document.createElement('div');
+				  d.id = 'iemsg' + i;
+				  d.style.height = d.style.width = a + 'px';
+				  d.appendChild(document.createTextNode(msg[i]));
+				  oi.appendChild(d); y[i] = x[i] = Y[i] = X[i] = 0;
+			  };
+				  o.appendChild(oi); 
+				  document.body.appendChild(o);
+				  setInterval(drag, 25);
+			}
+			 /*
+			   该函数的作用是将创建的msgi节点对象跟随鼠标移动
+			 */
+			 var drag = function(){ 
+				  Y[0] += (ymouse - Y[0]) * speed;
+				  X[0] += (xmouse - X[0]) * speed;
+				  y[0] = Y[0];
+				  x[0] = X[0];
+			 for (var i = n; i > 0; --i){
+				  Y[i] += (y[i-1] - Y[i]) * speed;
+				  X[i] += (x[i-1] - X[i]) * speed;
+				  y[i] = Y[i];
+				  x[i] = X[i];
+			 };
+				makecircle();
+			}
+
+			//创建匿名函数绘制椭圆
+			var rotation = 0.4;           //绘制椭圆的弧度步长
+			var currStep = 0;      
+			var makecircle = function(){ 						     
+				 currStep -= rotation;    //增加弧度      
+				  //创建椭圆
+			 for (var d, i = n; i > -1; --i){ 						 
+				  d = document.getElementById('iemsg' + i).style;          //为每一个拆分后的msgi添加样式
+				  //设置每个每个msgi的top、left值
+				  d.top = Math.round(y[i] + a * Math.sin((currStep + i) / letter_spacing) * circleY) + 'px';                
+				  d.left = Math.round(x[i] + a * Math.cos((currStep + i) / letter_spacing) * circleX) + 'px';
+			 };
+			};
+																							
+			if(window.addEventListener){                            //w3c的事件监听方式
+				 window.addEventListener('load', init, false);
+				 document.addEventListener('mousemove', mouse, false);
+			}					
+			else if (window.attachEvent){                          //兼容IE的事件监听方式
+				 window.attachEvent('onload', init);
+				 window.attachEvent('mousemove',mouse);
+			 };
+			})();
+</script> 
+ </body>
+</html>

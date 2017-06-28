@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>飞机大战</title>
+	<style>
+		#container{
+			width:320px;
+			height:568px;
+			background: url(images/start.png);
+			margin:20px auto;
+			position: relative;
+			overflow: hidden;
+		}
+		#container input{
+			width:120px;
+			height: 38px;
+			background: #ff6600;
+			border:0;
+			color:#fff;
+			font-size:14px;
+			font-family: 微软雅黑;
+			position: absolute;
+			left: 100px;
+			bottom:50px;
+		}
+		#enddiv{
+		    position: absolute;
+		    top: 210px;
+		    left: 75px;
+		    border: 1px solid gray;
+		    border-radius: 5px;
+		    text-align: center;
+		    background-color:#d7ddde;
+		    display: none;
+		    z-index: 2;
+		}
+		.plantext{
+		    width: 160px;
+		    height: 30px;
+		    line-height: 30px;
+		    font-size: 16px;
+		    font-weight: bold;
+		}
+		#enddiv div{
+		    width: 160px;
+		    height: 50px;
+		}
+		#enddiv div button{
+		    margin-top:10px ;
+		    width: 90px;
+		    height: 30px;
+		    border: 1px solid gray;
+		    border-radius: 30px;
+		}
+		#scoretext{
+			margin: 0;
+			font-family: arial;
+			font-size:12px;
+			font-weight: bold;
+			color:#ff6600;
+			position: absolute;
+			left: 4px;
+			top: 4px;
+			z-index: 100;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<p id="scoretext"></p>
+		<div id="enddiv">
+            <p class="plantext">游戏结束</p>
+            <div><button onclick="restartGame()" id="restart">继续</button></div>
+        </div>
+		<input type="button" value="开始游戏" id="startBtn">
+	</div>
+</body>
+<script type="text/javascript" src="js/game.js" ></script>
+<script type="text/javascript" src="js/enemy.js" ></script>
+<script>
+	startBtn.onclick = function(){
+		container.style.background = "url(images/background_1.png)";
+		startBtn.style.display = "none";
+		var bgMoveSpeed = 0;
+		setInterval(function(){
+			container.style.backgroundPosition = "0px"+" "+(++bgMoveSpeed)+"px";
+		},20);
+		//console.log(bgMoveSpeed);
+		var plane = new MyPlane();
+		plane.x = 110;
+		plane.y = 430;		
+		plane.container = container;
+		plane.init();
+		
+		var enemy = new Enemy();
+		enemy.container = container;
+		enemy.plane = plane;
+		//console.dir(enemy.plane);
+		enemy.speed = 30;
+		enemy.createTime = 50;
+		enemy.bullList = plane.arrBull;
+		enemy.init();
+		//console.log(enemy.bullList);
+		
+		var middenemy = new MiddEnemy();
+		middenemy.container = container;
+		middenemy.bullList = plane.arrBull;
+		middenemy.createTime = 250;
+		middenemy.init();
+		
+		var bigenemy = new BigEnemy();
+		bigenemy.container = container;
+		bigenemy.bullList = plane.arrBull;
+		bigenemy.createTime = 500;
+		bigenemy.init();
+	}
+</script>
+</html>

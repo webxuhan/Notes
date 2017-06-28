@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>类jquery封装</title>
+	<script>
+		/*jquery对象具有很强的集成性，可以作为函数调用，也可以作为对象调用,当作为函数调用的时候，它可以无需new而返回一个它的实例*/
+		/*
+		var Person = function(info){
+			return new Person.prototype.init(info);
+		}
+		Person.prototype = {
+			constructor : Person,
+			init : function () {
+				this.name = info.name;
+			}
+		}
+		Person.prototype.init.prototype = Person.prototype;
+		*/
+		/*将对象的构造操作放在函数的里面，而自己充当一个工厂，不断调用Prototype*/
+		/*end*/
+		/*start*/
+		/*
+		var Person = function(info){
+			return new Person.fn.init(info);
+		}
+		Person.fn = Person.prototype = {
+			constructor : Person,
+			init : function () {
+				this.name = info.name;
+				this.sayHello = function(){
+					this.makeArray();
+				}
+			}
+			makeArray : function () {
+				console.log(this.name);
+			}
+		}
+		*/
+		/*虽然把makeArray等常用方法挂载到Person.prototype下面,但还是会被init这个实例使用*/
+		//Person.fn.init.prototype = Person.fn;
+		/*end*/
+		/*闭包封装start*/
+		var Person = (function(window){
+			var Person = function (name) {
+				return new Person.fn.init(name);
+			}
+
+			Person.fn = Person.prototype = {
+				constructor : Person,
+				init : function (name) {
+					console.log("1",this);
+					this.name = name;
+					this.sayHello = function () {
+						console.log("2",this);
+						this.makeArray();
+					} 
+				},	
+				makeArray : function() {
+					console.log(this.name);
+				}
+			}
+
+			Person.fn.init.prototype = Person.fn;
+
+			return Person;
+		})();
+		var p = Person('xinleaf');
+		console.log(p)
+		p.sayHello();
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

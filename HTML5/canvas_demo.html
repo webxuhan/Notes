@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>画布</title>
+	<style>
+	    #one{
+		    border-bottom: 2px solid #e2dfaa;
+		    border-left: 2px solid #e2dfaa;
+        }
+	</style>
+	<script>
+		window.onload = funciton(){
+			// 1.获取画布对象
+			var one = document.getElementById('one');
+			// 2.获取图像上下文
+			var context = one.getContext('2d');
+			// 3.设定绘制样式
+			context.fillStyle = "#eeddcc";
+			context.strokeStyle = '#ffccdd';
+			context.lineWidth = 10;
+			// 4.绘制矩形（填充）
+			context.fillReact(20,300,60,-100);
+			context.fillRect(100,300,60,-130);
+			context.fillStyle = "#ffccdd";
+			context.fillRect(180,300,60,-200);
+			// 清除矩形
+			context.clearRect(0,0,200,200);
+		}
+	</script>
+</head>
+<body>
+	<header>
+		<h1>画布-canvas</h1>
+	</header>
+	<article>
+		<!-- 第一部分 -->
+		<section>
+			<h2>1.测试</h2>
+			<article>
+				<figure>
+					<canvas id="one" width="400" height="300"></canvas>
+					<figcaption>第一个画布</figcaption>
+				</figure>
+			</article>
+		</section>
+	</article>
+</body>
+</html>

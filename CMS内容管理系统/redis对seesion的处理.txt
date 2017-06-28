@@ -1,0 +1,93 @@
+Redis是一个非常适合用于Session管理的数据库。第一，它的结构简单，key-value的形式非常符合SessionID-UserID的存储；第二，读写速度非常快；第三，自身支持数据自动过期和清除；第四，语法、部署非常简单。基于以上原因，很多Session管理都是基于Redis实现的。
+
+使用Express和Redis实现Session管理，只要两个中间件就足够了：
+express-session	connect-redis
+
+redis 也是要装在服务器上的，具体怎么安装参考下这篇文章：
+http://www.cnblogs.com/lxx/archive/2013/06/04/3116985.html
+
+DoraCMS 使用redis管理session的方式:
+1.安装必要的中间件express-session,connect-redis
+2.在app.js中配置redis：
+var session = require("express-session");
+var RedisStore = require("connect-redis")(session);
+app.use(session({
+	secret: Settings.session_secret,
+	store: new RedisStore({
+		port:Settings.redis_port,
+		host:Settings.redis_host,
+		ttl:1800
+	}),
+	resave:true,
+	saveUninitialized:true
+}));
+3.在用户登录成功之后，将cookie记录入缓存中:
+//用户登录提交请求
+router.post("/doLogin",function(req,res,next){
+	var email = req.body.email;
+	var password = req.body.password;
+
+	var newPsd = DbOpt.encrypt(password,"dora");
+	User.findOne({email:email,password:newPsd},function(err,user){
+		if(user){
+			//将cookie存入缓存
+			filter.gen_session(user,res);
+			console.log("---------登录成功--------")
+			res.end("success");
+		}else{
+			res.end("error");
+		}
+	})
+});
+
+filter.gen_session的实现:
+function gen_session(user,res){
+	var auth_token = user._id + "$$$$"; //以后可能会存储更多信息，用$$$$来分隔
+	res.cookie(settings.auth_cookie_name,auth_token,{path:"/",maxAge:1000*60*60*24*30,signed:true,httpOnly:true}); //cookie 有效期30天
+}
+
+4.在app.js中加入检查用户登录状态的方法：
+app.use(filter.authUser);
+...
+
+实现：
+express.authUser = function(req,res,next){
+	if(req.session.user){
+		req.session.logined = true;
+		console.log("--------找到缓存---------");
+		return next();
+	}else{
+		var auth_token = req.signedCookies[settings.auth_cookie_name];
+		console.log("---找不到session-----"+auth_token);
+		if(!auth_token){
+			return next();
+		}else{
+			var auth = auth_token.split("$$$$");
+			var usr_id = auth[0];
+
+			User.findOne({"_id":user_id},function(err,user){
+				if(err){
+					console.log(err);
+				}else{
+					req.session.user = user;
+					req.session.logined = true;
+					return next();
+				}
+			})
+		}
+	}
+};
+.....
+
+原理大概是这样的，用户登录后，将用户id记录到cookie中并设置过期时间，在每次请求页面，如果session为空，则通过:
+var auth_token = req.signedCookies[settings.auth_cookie_name];
+
+5.session的清理:
+router.get("/logout",function(req,res,next){
+	req.session.destroy();
+	res.clearCookie(Settings.auth_cookie_name,{path:"/"});
+	res.end("success");
+});
+
+这种方式来查询是否有用户存储的cookie,如果有，则通过auth_token的方式去获取用户id查询用户信息后存储到session中。因为cookie设置了超时时间,不论浏览器是否关闭或者服务器是否重启，cookie依然是存在的，所以只要没有超时，即使session丢失,通过cookie中存储的key和value值就可以重新找到用户信息并在此存入到session中
+http://www.cnblogs.com/ddyq/p/3151284.html

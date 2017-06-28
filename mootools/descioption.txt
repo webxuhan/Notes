@@ -1,0 +1,123 @@
+1.getElement 取得第一个子元素
+var myElement = myElement.getElement(tag);
+
+2.getElements 根据CSS选择器取得元素数组
+var myElements = myElement.getElements(tag);
+
+3.getElementById 通过id取得元素
+var myElement = anElement.getElementById(id);
+
+4.set 设置元素属性
+myElement.set(arguments);
+参数：
+    两个参数(属性,值)
+        property - (string)属性名.
+        value - (mixed)属性值.
+    一个参数(多个属性)
+        properties - (object)一个对象包含多个属性(属性名/属性值).
+
+5.get 取得元素属性
+myElement.get(property);
+参数:
+    property - (string)属性名。
+
+6.erase 移除一个元素的属性
+myElement.erase(property);
+notice：如果相应的Element.Properties对象不存在'erase'方法，元素的'removeProperty'函数将被调用
+
+7.match 测试此元素,看它是否与传入的参数匹配
+myElement.match(match);
+参数:
+    match - 可以是一个字符串或元素
+        (string)标签名称，或单一的CSS选择器。
+        (element)一个元素，如果两元素相同,则返回true
+返回:
+    (boolean)如果元素匹配，返回true 。否则，返回false 。
+
+8.contains 返回是否包含某元素
+var result = myElement.contains(el);
+
+9.inject 在某个元素中注入或插入另一个元素
+myElement.inject(el[, where]);
+参数:
+    el - (mixed) 可以是元素对象或元素的id 。
+    where - (string, optional: defaults to 'bottom') 注入元素的位置。可以'top'，'bottom'，'after','before'。
+    top:注入到最外层； bottom:注入到里层； after:注入到前端; before:注入到后端
+
+10.grab
+与Element:inject工作原理相似,但是反向的.
+附加元素在相对于元素的子元素的特定位置(由所在参数指定) 。
+myElement.grab(el[, where]);
+参数:
+    el - (mixed) 可以是一个元素或元素的id。
+    where - (string, optional: default 'bottom')来追加该元素的地方。可以是"top"，"bottom"，"before"或"after"。
+
+
+11.adopt
+如Element:grab,但可以允许多个元素追加到底部.
+在一个元素内部插入一新元素。
+myParent.adopt(el[, others]);
+参数:
+    el - (mixed) 一个元素或一个元素的数组或一个元素的ID。
+    others - (mixed, optional) 一个或更多逗号分隔的元素,或一个数组。
+
+
+12.wraps 
+与Element:grab相似,但此方法加包裹指定元素,并替换指定元素原来的位置. 
+myParent.wraps(el[, where]);
+
+13.appendText 向元素内部追加文本
+myElement.appendText(text[, where]);
+参数:
+    text - (string)要追加的文本。
+    where - (string, optional: default 'bottom') 文本的注入位置。可以是'top','bottom','before','after' 。
+
+14.dispose 从DOM中移除元素
+var removedElement = myElement.dispose();
+
+15.clone 克隆一个元素，并返回克隆体
+var copy = myElement.clone([contents, keepid]);
+参数:
+    contents - (boolean,optional:defaults true )当设置为false的元素的内容不被克隆。
+    keepid - (boolean, optional: defaults to false) 如果为true克隆的元素保留id.同样适用于任何克隆的子节点。
+
+16.replaces 替换元素
+var element = myElement.replaces(el);
+el-被替换的元素
+
+17.hasClass 测试元素是否有某class
+var result = myElement.hasClass(className);
+
+18.addClass 为元素添加一个类
+myElement.addClass(className);
+
+19.removeClass 删除元素的一个类
+myElement.removeClass(className);
+
+20.toggleClass 切换类，如果已存在则删除，如果不存在则添加
+myElement.toggleClass(className, force);
+参数:
+    className - (string)要添加或删除的类。
+    force - (boolean, optional)是否强制执行.
+
+21.getPrevious 返回前一个兄弟元素节点，不包含纯文本节点
+var previousSibling = myElement.getPrevious([match]);
+
+getAllPrevious 与Element:getPrevious类似,但返回元素之前所有匹配的元素. 
+
+22.getNext 返回一个兄弟元素节点，不包含纯文本节点
+getAllNext
+
+23.getFirst 得到第一个匹配的元素
+getLast 得到最后一个匹配的元素
+getParent 返回父节点
+getParents 从当前元素节点树向上匹配，返回所有匹配到的节点集合
+getSiblings 返回元素的兄弟节点，不包含纯文本节点
+getChildren 返回所有元素的子元素(不包含文本节点)
+
+24.empty 清空一个元素的所有子元素
+myElement.empty();
+
+25.destroy 移除元素及其子元素 
+
+26.toQueryString 

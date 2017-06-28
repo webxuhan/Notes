@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>video</title>
+	<style>
+		span{color: red}
+	</style>
+	<script>
+		window.onload = function(){
+			var duration = document.getElementById('duration');
+			var curtime = document.getElementById('curtime');
+			var player = document.getElementById('player');
+			var btn = document.getElementById('video-btn');
+			duration.innerHTML = DateFormat(player.duration);
+			btn.onclick = function(){
+				if(player.paused){
+					player.play();
+					this.value = '暂停';
+				}else{
+					player.pause();
+					this.value = '播放';
+				}
+			};
+			//实时更新当前播放时间
+			setInterval(function(){
+				curtime.innerHTML = DateFormat(player.currentTime);
+			},250);
+			function DateFormat(data){
+			    var data = Number(data);
+			   	var h = parseInt(data/3600);
+			   	var m = parseInt((data-h*3600)/60);
+			   	var s = parseInt(data-h*3600-m*60);
+			    return h + ':' + m + ':' + s;  
+			}
+		};
+	</script>
+</head>
+<body>
+	<div class="mediaplayer">
+		<div class="video">
+			<video id="player" width="400" height="300">
+				<source src="src/1.mp4" type="video/mp4">
+			</video>
+		</div>
+		<div class="controls">
+			<input type="button" id="video-btn" value="播放">
+			当前时间：<span id="curtime">0</span>总时长：<span id="duration">0</span>
+		</div>
+	</div>
+</body>
+</html>

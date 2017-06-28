@@ -1,0 +1,33 @@
+1. Hello World
+	1) 安装Express框架
+		cnpm install express
+	2) 创建app.js,并且编写代码
+		进入 myapp 目录，创建一个名为 app.js 的文件，然后将下列代码复制进去：
+		var express = require('express');
+		var app = express();
+
+		//路由
+		app.get('/', function (req, res) {
+		  res.send('Hello World!');
+		});
+
+		var server = app.listen(3000, function () {
+		  var host = server.address().address;
+		  var port = server.address().port;
+		  console.log('Example app listening at http://%s:%s', host, port);
+		});
+	3) 启动express服务
+		node app.js 
+		上面的代码启动一个服务并监听从 3000 端口进入的所有连接请求。他将对所有 (/) URL 或 路由 返回 “Hello World!” 字符串。
+2. Express 应用生成器
+	1) 全局环境下安装Express应用生成器软件
+		cnpm install express-generator -g
+	2) 生成Express应用
+		express myapp
+	3) 为应用安装依赖
+		cd myapp 
+		cnpm install
+	4) 启动这个应用（MacOS 或 Linux 平台）：
+		DEBUG=myapp:* npm start
+	5)Windows 平台使用如下命令：
+		set DEBUG=myapp & npm start

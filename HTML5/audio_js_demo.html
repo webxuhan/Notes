@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>音频</title>
+	<script>
+		window.onload = function(){
+			var audio = new Audio('src/music.mp3');
+			audio.oncanplaythrough = function(){
+				var play = confirm('是否播放音乐？');
+				if(play){
+					audio.play();
+				}
+			};
+			audio.onfinish = function(){
+				var paly = confirm('已经播放完毕，还要不要再来一首？');
+				if(play){
+					audio.play();
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

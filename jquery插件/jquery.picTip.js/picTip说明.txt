@@ -1,0 +1,47 @@
+Browser compatibility:IE8+,Firefox,Opera,Safari,Chrome
+
+1.Description：jQuery PicTip is a plugin that adds handy tooltips to your images, slideshows, sliders and more. 
+
+2.Use the following clases for customization: 
+spot 	Spot class
+spot-{index} 	Class containing the spot indetifier (spot-0, spot-1, etc)
+spot-open 	Class assigned to the spot when the related tooltip is open
+spot-tooltip 	Tooltip class
+spot-tooltip-{index} 	Class containing the tooltip indetifier (spot-tooltip-0, spot-tooltip-1, etc)
+spot-tooltip-close 	Class assigned to the tooltip close link
+spot-tooltip-content 	Class assigned to the tooltip content container
+
+3.The complete set of options: 
+spots [ Array: [] ] 	
+	Spots object array. Refer to the next table for more information.
+spotClass [ String: '.spot' ] 	
+	Spots class.
+spotTemplate [ String: '<a></a>' ] 	
+	HTML template to create the spots.
+eventType [ String: 'click' ] 	
+	Event type to trigger the tooltip/caption display action (posible values are click and hover).
+tooltip [ Boolean: true ] 	
+	Display tooltip or caption? (use caption for a better mobile experience).
+onShowToolTip [ Function: function (spot, tooltip) {} ] 	
+	Function executed after the tooltip has opened
+onCloseToolTip [ Function: function (spot, tooltip) {} ] 	
+	Function executed after the tooltip has closed
+
+4.(So,spots object array?)--The spots set of options: 
+top [ Number: 0 ] 	Spot top position
+left [ Number: 0 ] 	Spot left position
+content [ String: '' ] 	Tooltip content
+tooltipPosition [ String: '' ] 	Tooltip position relative to spot. (tl, tr, tc, bl, br, bc, cl, cr)
+tooltipId [ String: '' ] 	Tooltip ID
+tooltipCss [ Object: {} ] 	CSS styling for the tooltip
+tooltipClose [ Boolean: false ] 	Set this to true if you want the tooltip close link
+
+5.Accessing the PicTip instance.
+	// You can access the instance with:
+	var pictip = $("#pictip-demo").data('pictip');
+                        
+
+You can access the following methods of the instance: 
+	init [ Function: function (options) {...} ] 	Initialize the plugin instance
+	closeToolTips [ Function: function () {...} ] 	Close all open tooltips
+	destroy [ Function: function () {...} ] 	Destroy the plugin instance

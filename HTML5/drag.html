@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽</title>
+	<style>
+		#div1{width: 488px;height: 70px;padding: 10px;border: 1px solid gray}
+	</style>
+</head>
+<body>
+	<p>请把图片拖放到矩形中:</p>
+	<div id="div1"></div>
+	<br>
+	<img src="images/a.jpg" alt="" id="drage1" draggable="true" style="width:40px;height:40px">
+</body>
+<script>
+	function allowDrop(ev){
+		ev.preventDefault();
+	}
+	function drag(ev){
+		ev.dataTransfer.setData('Text',ev.target.id);
+	}
+	function drop(ev){
+		ev.preventDefault();
+		var data = ev.dataTransfer.getData('Text');
+		ev.target.appendChild(document.getElementById(data));
+	}
+	window.onload = function(){
+		var drage1 = document.getElementById('drage1');
+		drag1.ondragstart = drag;
+		var div1 = document.getElementById("div1");
+		div1.ondrop = drop;
+		div1.ondragover = drag;
+	}
+</script>
+</html>

@@ -1,0 +1,58 @@
+1.db.User.find():管理员发送邮件的管理员
+{ "_id" : ObjectId("5847c061591166ecd655beef"), "email" : "646139494@.com", "userName" : "wuxin" }
+
+2.db.users.find():平台用户
+{ "_id" : "SygyFsSBQl", "userName" : "james", "email" : "549332732@qq.com", "password" : "5ce07ac7915adb17", "group" : "0", "logo" : "/upload/images/defaultlogo.png", "date" : ISODate("2016-12-07T08:42:31.510Z"), "comments" : "这个人很懒， 什么都没有留下...", "__v" : 0 }
+
+3. db.admingroup.find()：用户组设定表
+“红叶”
+
+4.db.adminusers.find()：管理员用户表
+“webxuhan” "test"
+
+5.db.ads.find():广告管理表
+{ "_id" : "Hye642CXXl", "name" : "tom", "items" : [ "B1pVhC7Xx" ], "date" : ISODate("2016-12-06T06:35:33.246Z"), "state" : "1", "type" : "0", "__v" : 0 }
+{ "_id" : "rJe4w2Rm7g", "name" : "帅哥啊", "items" : [ "BJNDnR7Xe" ], "date" : ISODate("2016-12-06T06:36:11.557Z"), "state" : "1", "type" : "0", "__v" : 0 }
+{ "_id" : "SJqcSbEXg", "name" : "默认图片广告", "items" : [ ], "date" : ISODate("2016-12-06T09:32:02.140Z"), "state" : "1", "type" : "1", "__v" : 0 }
+
+6.db.adsitems.find():广告内所有项目表
+{ "_id" : "B1pVhC7Xx", "title" : "tom is boy", "date" : ISODate("2016-12-06T06:35:33.230Z"), "target" : "_blank", "__v" : 0 }
+{ "_id" : "BJNDnR7Xe", "title" : "这是个没用的广告", "date" : ISODate("2016-12-06T06:36:11.553Z"), "target" : "_blank", "__v" : 0 }
+
+7.db.contentcategories.find():文档类别管理表
+{ "_id" : "Hy6X6CmQe", "name" : "这是一个大的主题", "contentTemp" : "", "keywords" : "大的主题", "comments" : "仅仅是一 个主题", "sortPath" : "0,Hy6X6CmQe", "homePage" : "bigtitlle", "defaultUrl" : "bigtitlle", "date" : ISODate("2016-12-06T06:39:32.542Z"), "state" : "1", "parentID" : "0", "sortId" : 1, "uid" : 0, "__v" : 0 }
+
+8.db.contents.find():文章内容表
+
+9.db.contenttags.find():文章标签表
+{ "_id" : "r1Dj2R7Xg", "name" : "这", "alias" : "xuxxu", "comments" : "xxxx", "date" : ISODate("2016-12-06T06:37:19.247Z"), "__v" : 0 }
+
+10.db.contenttemplates.find():内容模板表
+{ "_id" : "E1_CLUvEl", "name" : "dora简约", "version" : "v1.0.0", "__v" : 1, "comment" : "DoraCMS默认模板，用最基础的白 色展现页面，希望大家喜欢", "date" : ISODate("2015-12-02T03:38:31.188Z"), "using" : false, "author" : "doramart", "sImg" : "http://7xkr1n.com1.z0.glb.clouddn.com/cmsSource20151207092106.jpg", "items" : [ "BJsdN2QXe", "r1drcCXQx" ], "alias" : "dorawhite" }
+
+11.db.dataoptionlogs.find():数据选项记录{空表}
+
+12.db.files.find():{空表}
+
+13.db.messages.find():留言表
+{ "_id" : "r1eCnHBmg", "contentId" : "H1W1zkEQe", "contentTitle" : "克拉之恋宣传片", "author" : "B1eeGnHBml", "content" : "这只是一个测试，不要太在意", "hasPraise" : false, "praiseNum" : 0, "date" : ISODate("2016-12-07T08:48:08.147Z"), "utype" : "0", "__v" : 0 }
+{ "_id" : "SJogpSHXg", "contentId" : "H1W1zkEQe", "contentTitle" : "克拉之恋宣传片", "author" : "B1eeGnHBml", "content" : "为什么时间上会有出入，我不敢相信", "hasPraise" : false, "praiseNum" : 0, "date" : ISODate("2016-12-07T08:48:51.435Z"), "utype" : "0", "__v" : 0 }
+
+14.db.notifies.find():系统消息表
+{ "_id" : "rykFoBBml", "type" : "2", "systemSender" : "doraCMS", "title" : "用户注册提醒", "content" : "新增注册用户 james", "action" : "reg", "date" : ISODate("2016-12-07T08:42:31.496Z"), "__v" : 0 }
+{ "_id" : "Hylf2Br7l", "type" : "2", "systemSender" : "doraCMS", "title" : "用户注册提醒", "content" : "新增注册用户 xuhan", "action" : "reg", "date" : ISODate("2016-12-07T08:44:55.880Z"), "__v" : 0 }
+
+15.db.systemoptionlogs.find():系统日志管理表
+{ "_id" : "SyIof377x", "logs" : "webxuhan 登录，IP:::ffff:127.0.0.1", "type" : "login", "date" : ISODate("2016-12-06T03:38:06.301Z"), "__v" : 0 }
+{ "_id" : "rkdG5CXQl", "logs" : "webxuhan 登录，IP:::ffff:127.0.0.1", "type" : "login", "date" : ISODate("2016-12-06T06:26:23.967Z"), "__v" : 0 }
+
+16.db.templateitems.find():模板详细信息表
+{ "_id" : "H1pwQhXXe", "name" : "默认模板", "date" : ISODate("2016-12-06T03:41:24.667Z"), "isDefault" : true, "detailName" : "detail", "cateName" : "contentList", "forder" : "2-stage-default", "__v" : 0 }
+{ "_id" : "BJsdN2QXe", "name" : "默认模板", "date" : ISODate("2016-12-06T03:45:55.436Z"), "isDefault" : true, "detailName" : "detail", "cateName" : "contentList", "forder" : "2-stage-default", "__v" : 0 }
+{ "_id" : "r1drcCXQx", "name" : "123", "comment" : "123", "date" : ISODate("2016-12-06T06:27:12.320Z"), "isDefault" : false, "detailName" : "detail", "cateName" : "contentList", "forder" : "1-stage-default", "__v" : 0 }
+
+17.db.usernotifies.find():
+{ "_id" : "BJfwEeISmg", "notify" : "ryDExUHQg", "systemUser" : "E1jNjZi8", "date" : ISODate("2016-12-07T09:02:38.815Z"), "isRead" : false, "__v" : 0 }
+{ "_id" : "BJZxFV9HXe", "notify" : "SkegYVcB7l", "systemUser" : "SJISho7Xe", "date" : ISODate("2016-12-07T13:53:59.826Z"), "isRead" : true, "__v" : 0 }
+{ "_id" : "r1fetE9Hmg", "notify" : "SkegYVcB7l", "systemUser" : "E1jNjZi8", "date" : ISODate("2016-12-07T13:53:59.828Z"), "isRead" : false, "__v" : 0 }
+>

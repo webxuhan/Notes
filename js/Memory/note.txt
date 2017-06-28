@@ -1,0 +1,82 @@
+垃圾回收语言：通过定期检查哪些事先被分配的内存块仍然可以被应用的其他部分“访问”到，来帮助开发者管理内存。
+	“哪些内存是仍然被需要的？” => “哪些内存是仍然被应用的其他部分访问到”
+
+泄露的主要原因:不必要的引用
+
+Mark-and-sweep：
+1.垃圾回收器建立一个根节点的列表，例如window
+2.所有的根节点被检查并且标记为活跃
+3.所有没有被标记为活跃的内存块现在可以认为是垃圾，回收器现在可以释放掉那块内存并还给操作系统
+
+常见的javascript泄露:
+1>意外的全局变量
+	function(){
+		bar = "this is a hidden global variable"; 
+	}
+
+	function foo(){
+		this.variable = "potential accidental global"
+	};
+注：1.如果必须用全局变量来存储很多数据，在处理完之后确保对其清零或重新赋值。
+	2.一个在与全局连接上增加内存消耗常见的原因是缓存（缓存存储重复被使用的数据）。为此，为了有效，缓存必须有其大小的上限。飙出限制的缓存可能会因为内容不可被回收，导致高内存消耗【内存溢出】
+
+2>被遗忘的计时器或者回调
+	var someResource = getData();
+	setInterval(function(){
+		var node = document.getElementById('Node');
+		if(node){
+			// Do stuff with node and someResource.
+			node.innerHTML = JSON.stringify(someResource);
+		}
+	},1000);
+	处理函数，由于间隔是活跃的，不能被回收(间隔需要被停掉才能被回收)。如果间隔处理不被回收，它的依赖也不能被回收，那意味着可能存储着大量数据的someResource，也不能被回收。
+
+	观察者模式的正确姿势：
+	var element = document.getElementById('button');
+	function onClick(event){
+		element.innerHtml = 'text';
+	}
+	element.addEventListener('click',onClick);
+	// Do stuff
+	element.removeEventListener('clck',onClick);
+	element.parentNode.removeChild(element);
+	// Now when element gooes out of scope.
+	// both element and onClick will be collected even in old browsers that don't handle cycles well.
+
+3>超出DOM引用
+	假设你想要迅速的更新一个表格几行内容。存储在每个DOM行节点的引用到一个字典或者数组会起作用。当这发生时，两个对于同个DOM元素的引用被留存；一个在DOM树中，另外一个在字典中。如果在将来的某些点决定移除这些行，需要让这两个引用都不可用。
+	var elements = {
+		button : document.getElementById('button'),
+		image : document.getElementById('image'),
+		text : document.getElementById('text')
+	};
+	function doStuff(){
+		image.src = 'http://some.url/image';
+		button.click();
+		console.log(text.innerHTML);
+	}
+	function removeButton(){
+		// The button is a direct child of body.
+		document.body.removeChild(document.getElementById('button'));
+		// At this point,we still have a reference to #button in the global
+		// elements dictionary. In other words, the button element is still in memory and cannot be collected by the GC.
+ 	}
+
+ 	注：来自js代码的表格元素的引用会引起在内存里存整个表格。
+
+4>闭包
+	var theThing = null;
+	var replaceThing = function() {
+		var originalThing = theTing;
+		var unused = function(){
+			if(originalThing)
+				console.log('hi');
+		};
+		theTing = {
+			longStr : new Array(1000000).join('*'),
+			someMethod : function () {
+				console.log(someMessage);
+			}
+		};
+	};
+	setInterval(replaceThing,1000);

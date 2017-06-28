@@ -1,0 +1,8 @@
+1.垂直方向的内容截断
+响应式表格使用了 overflow-y: hidden 属性，这样就能将超出表格底部和顶部的内容截断。特别是，也可以截断下拉菜单和其他第三方组件。
+
+2.Firefox 和 fieldset 元素
+Firefox 浏览器对 fieldset 元素设置了一些影响 width 属性的样式，导致响应式表格出现问题。除非使用我们下面提供的针对 Firefox 的 hack 代码，否则无解：
+	@-moz-document url-prefix() {
+	  fieldset { display: table-cell; }
+	}

@@ -1,0 +1,28 @@
+漏洞描述：redis默认不需要密码即可访问，黑客直接访问即可获取数据库中所有信息，造成严重的信息泄露
+
+[1]修复方案：
+1.绑定需要访问数据库的IP
+	修改redis.conf中的"bind 127.0.0.1",改成需要访问此数据库的IP地址
+2.设置访问密码
+	在redis.conf中找到"requirepass"字段，在后面填上你需要的密码
+
+修改后，需要重启redis才能生效
+
+[2]
+redis缓存并没有设置密码,需要通过auth属性设置redis密码：
+var redis = require('redis');
+var client = redis.createClient(settings.redis_port, settings.redis_host);
+client.auth(settings.redis_psd);
+
+如果在express-session中也使用了redis，也需要加入密码：
+app.use(session({
+    secret: settings.session_secret,
+    store: new RedisStore({
+        port: settings.redis_port,
+        host: settings.redis_host,
+        pass : settings.redis_psd,
+        ttl: 1800 // 过期时间
+    }),
+    resave: true,
+    saveUninitialized: true
+}));

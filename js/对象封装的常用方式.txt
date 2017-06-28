@@ -1,0 +1,4 @@
+js是一门面向对象语言，其对象是用prototype属性来模拟的。
+
+1>常用封装：
+function Person

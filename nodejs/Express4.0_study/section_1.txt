@@ -1,0 +1,28 @@
+1.app.locals 【不能在中间件访问本地变量】
+	app.locals.title // => 'My App'
+一旦调用，生命周期持续整个应用程序，res.locals生命周期只持续单个请求。
+
+2.app.all(path,callback)与app.use(path,callback);
+app.all()匹配的是完整路径，app.use()可匹配部分路径
+exg:
+	app.use('/a',function(req,res,next){
+		next();
+	});
+	app.all('/a',function(req,res,next){
+		next();
+	});
+访问 /a ,use和all都会被调用；访问 /a/b 只有use被调用
+
+3.app.delete(path,callback);
+	删除某个路由
+
+4.app.engine(ext, callback)；
+	app.engine('jade', require('jade').__express);
+	app.engine('html',require('ejs').renderFile);
+
+4.app.get(name);
+Returns the value of name app setting, where name is one of strings in the app settings table.
+	app.get('title');  // => undefined
+
+	app.set('title','My Site');
+	app.get('title');  // => 'My Site'

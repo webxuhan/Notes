@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>视频播放</title>
+	<script>
+		window.onload = function(){
+			var video = document.getElementById('video');
+			console.log(video.constructor);
+			var btns = document.getElementsByTagName('button');
+			btns[0].onclick = function(){
+				console.log(video.constructor.prototype); //访问该对象的所有方法必须去构造函数原型中访问
+				console.log(video.start);
+				console.log(video.ended);
+				console.log(video.networkState);
+				console.log(video.currentTime);
+			};
+			btns[1].onclick = function(){
+				video.play();
+			};
+			btns[2].onclick = function(){
+				video.pause();
+			};
+			video.oncanplay = function(){
+				// alert('可以播放');
+			}
+
+		}
+	</script>
+</head>
+<body>
+	<video src="src/1.mp4" id="video" controls="" poster="images/a.jpg" loop muted="">该浏览器不支持H5播放器</video>
+	<br>
+	<button>检测</button>
+	<button>播放</button>
+	<button>暂停</button>
+</body>
+</html>

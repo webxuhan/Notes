@@ -1,0 +1,211 @@
+为了保存网站的用户数据和业务数据，通常需要一个数据库。MongoDB和Node.js特别般配，因为MongoDB是基于文档的非关系型数据库，文档是按BSON（JSON的轻量化二进制格式）存储的，增删改查等管理数据库的命令和JavaScript语法很像。如果你在Node.js里访问MongoDB的数据，会有我们是一家人的感觉，特别亲切。
+
+我也准备使用MongoDB来作为我的数据库。
+
+MongoDB使用集合（collection）和文档（document）来描述和存储数据，collection就相当于表，document相当于行，不过MySQL之类的关系型数据库，表结构是固定的，比如某一行由若干列组成，行行都一样，而MongoDB不同，一个集合里的多个文档可以有不同的结构，更灵活一些。
+
+安装
+
+详细指南在这里：https://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/。
+
+到https://www.mongodb.org/downloads下载安装包，Windows系统是msi文件，我选择的是“Windows 64-bit 2008 R2+”这个版本。
+
+安装非常简单，你可以默认，也可以选择安装位置，我装到了G盘MongoDB目录下。安装完后，目录结构是这样的：G:\MongoDB\Server\3.0\。
+
+mongod、mongo以及其它的工具，都在3.0目录下的bin目录。
+
+启动
+
+要使用MongoDB，需要指定一个文件夹让它存放数据，我在G:\MongoDB下建立了一个名为db的文件夹。
+
+打开cmd，进入G:\MongoDB\Server\3.0\bin目录，执行“mongod –dbpath=G:\MongoDB\db”，就会启动MongoDB，看到下面的图：
+
+start_mongod.png
+
+MongoDB启动后，会监听在一个端口上等待客户端来连接，从上图可以看出，默认监听的端口是27017。你可以“–port”选项改变这个端口，比如“mongod –port 28018 –dbpath=G:\MongoDB\db”命令就会启动MongoDB并监听28018端口。
+
+启动了MongoDB，我们就可以使用mongo（交互式shell）来管理数据库了。直接在bin目录下执行mongo，就可以看到下图：
+
+open_mongo.png
+
+mongo Shell默认连接到了test数据库，还告诉我们可以输入help来查看帮助。你可以键入help并回车，看看都有哪些命令可用。
+
+注意，mongod默认启动时不带鉴权，客户端连上后就可以随便操作，建库、增删改查等统统可以。你要想限制用户权限，可以自己配置下，我这里就直接往下走了。
+
+数据库管理
+
+新建数据库
+
+MongoDB的shell没有提供新建数据库的功能，不过你可以这样：
+
+use accounts
+db.createCollection('accounts')
+当你使用“use accounts”切换到名为accounts的数据库时，实际上什么也没发生，只有当你调用了db.createCollection之后，新的数据库才被保存，然后你使用“show dbs”就可以看到新建的库。
+
+删除数据库
+
+删除数据库需要切换到指定的库，然后调用dropDatabase()。如下：
+
+use accounts
+db.dropDatabase()
+调用dropDatabase之后，可以使用“show dbs”查看。
+
+创建集合
+
+之前新建数据库时已用到，调用createCollection即可。
+
+显示集合
+
+这样：
+
+use accounts
+show collections
+获取指定名字的集合
+
+要得到集合对象，可以这样：
+
+use accounts
+coll = db.getCollection("accounts")
+删除集合
+
+要删除集合，需要调用集合对象的drop()方法。这样：
+
+use accounts
+coll = db.getCollection("accounts")
+coll.drop();
+向集合中添加文档
+
+要把文档添加到集合，需要先得到collection对象，然后调用insert(document)方法。document参数是一个JSON对象。下面的命令往accounts集合里添加了两个用户：
+
+use accounts
+coll = db.getCollection("accounts")
+coll.insert({name:"ZhangSan",password:"123456"})
+coll.insert({name:"WangEr",password:"nicai"})
+在集合中查找
+
+使用集合对象的find()方法，可以列出集合里的所有文档。这样：
+
+use accounts
+coll = db.getCollection("accounts")
+coll.find()
+带参数的find()方法可以根据某个字段来查找：
+
+coll.find({name:"ZhangSan"})
+从集合中删除文档
+
+使用collection对象的remove(object)方法可以删除文档。它的参数是JS对象，它通过将你传入对象的属性与数据库内数据比对来匹配某一个文档，匹配到后删除，匹配不上就拉倒。假如你传递一个空的JS对象，就会删除这个集合里所有的文档。比如下面这样：
+
+use accounts
+coll = db.getCollection("accounts")
+coll.insert({name:"QianQi",password:"888888"})
+coll.find()
+coll.remove({name:"WangEr"})
+coll.find()
+coll.remove({})
+coll.find()
+更新集合中的文档
+
+collection对象提供了两种方法来更新文档：save(object)和update(query, update, options)。
+
+save可以直接更新一个对象，下面的代码将ZhangSan的密码修改为567890：
+
+coll.save({_id:ObjectId("55cc25b360bcee730bafd2bf"),name:"ZhangSan",password:"567890"})
+下面的update方法与上面的save效果一样：
+
+coll.update({name:"ZhangSan"},{name:"ZhangSan",password:"567890"})
+update()的第二个参数update是一个对象，能指定更新时用的运算符，比如$set可以设置字段的值，下面代码与前面等效：
+
+coll.update({name:"ZhangSan"},{$set: {password:"567890"}});
+使用mongoose管理数据库
+
+Node.js有针对MongoDB的数据库驱动：mongodb。你可以使用“npm install mongodb”来安装。
+
+不过直接使用mongodb模块虽然强大而灵活，但有些繁琐，我就使用mongoose吧。如果你对原始的驱动模块感兴趣，可以从这里开始：https://docs.mongodb.org/getting-started/node/client/。
+
+mongoose构建在mongodb之上，提供了Schema、Model和Document对象，用起来更为方便。
+
+我们可以用Schema对象定义文档的结构（类似表结构），可以定义字段和类型、唯一性、索引和验证。Model对象表示集合中的所有文档。Document对象作为集合中的单个文档的表示。mongoose还有Query和Aggregate对象，Query实现查询，Aggregate实现聚合。
+
+关于这些的信息，可以看这里：http://mongoosejs.com/docs/guide.html。
+
+废话不多说，看看怎么使用吧。
+
+安装mongoose
+
+使用express准备一个TestMongoDB项目，命令序列如下：
+
+express TestMongoDB
+cd TestMongoDB
+npm install
+执行完上面的命令后，使用下面的命令安装mongoose：
+
+npm install mongoose --save
+这个命令会安装mongoose并将其作为项目的依赖，而mongoose依赖的MongoDB driver以及regexp等等模块也会被自动安装。
+
+使用mongoose
+
+建议先看mongoose官方的quick start教程：http://mongoosejs.com/docs/index.html。讲得很到位，虽然是E文，也很容易理解，读之有如荒漠遇甘泉。
+
+为了理解用到的API，看这里：http://mongoosejs.com/docs/api.html。API看起来有点
+
+使用mongoose可以新建数据库、新建集合、对集合内的文档进行CRUD操作，在写代码时，可以对照着mongo shell验证结果是否符合预期。
+
+在TestMongoDB下新建一个mongo.js文件，内容如下：
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/accounts');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('mongoose opened!');
+  var userSchema = new mongoose.Schema({
+      name:{type: String, unique: true}, 
+      password:String
+    }, 
+    {collection: "accounts"}
+    );
+  var User = mongoose.model('accounts', userSchema);
+
+  User.findOne({name:"WangEr"}, function(err, doc){
+    if(err) console.log(err);
+    else console.log(doc.name + ", password - " + doc.password);
+  });
+
+  var lisi = new User({name:"LiSi", password:"123456"});
+  lisi.save(function(err, doc){
+    if(err)console.log(err);
+    else console.log(doc.name + ' saved');
+  });  
+});
+上面的文件，直接执行“node mongo.js”命令即可查看效果。
+
+要使用mongoose，先require，然后使用connect方法连接数据库。connect原型：
+
+connect(uri, options, [callback])
+uri的格式类似：“mongodb://user:pass@localhost:port/database”。
+
+mongoose的connection对象定义了一些事件，比如connected、open、close、error等，我们可以监听这些事件。
+
+在我们的示例代码里，我监听了open事件，在回调函数中，定义了Schema，调用mongoose.model来编译Schema得到Model对象。需要注意的是，定义Schema时指定的collection名字与mongoose.model的第一参数要保持一致。
+
+拿到了Model对象，就可以执行增删改查等操作了。Model对象有find()、findOne()、update()、remove()等方法，和我们在mongo shell里的用法类似。这些方法都有一个可选的callback，当你提供这些callback时，执行的结果会通过这个callback返回给你。如果你不提供，这些方法会返回一个Query对象，你可以再通过Query组装新的选项，然后调用Query的exec(callback)来提交查询。
+
+我在代码里查找WangEr的档案时用了callback，没用Query。
+
+Model对象有个Model(doc)方法，用来构造一个文档（Document）。创建Lisi的文档时就是这种Document对象的save()方法可以将文档保存到数据库。
+
+Mongoose就说这么多吧，很多详细的用法，用到时参考API文档吧，多数API都提供有示例代码片段。
+
+其它文章：
+
+Node.js开发入门——使用cookie保持登录
+Node.js开发入门——使用AngularJS内置服务
+Node.js开发入门——Angular简单示例
+Node.js开发入门——使用AngularJS
+Node.js开发入门——使用jade模板引擎
+Node.js开发入门——Express里的路由和中间件
+Node.js开发入门——Express安装与使用
+Node.js开发入门——HTTP文件服务器
+Node.js开发入门——HelloWorld再分析
+Node.js开发入门——环境搭建与HelloWorld
+顶

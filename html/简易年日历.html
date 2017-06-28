@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  <style type="text/css">
+* { padding: 0; margin: 0; }
+li { list-style: none; }
+body { background: #f6f9fc; font-family: arial; }
+
+.calendar { width: 210px; margin: 0 auto; padding: 10px 10px 20px 20px; background: #eae9e9; }
+.calendar ul { width: 210px; overflow: hidden; padding-bottom: 10px; }
+.calendar li { float: left; width: 58px; height: 54px; margin: 10px 10px 0 0; border: 1px solid #fff; background: #424242; color: #fff; text-align: center; cursor: pointer; }
+.calendar li h2 { font-size: 20px; padding-top: 5px; }
+.calendar li p { font-size: 14px; }
+
+.calendar .active { border: 1px solid #424242; background: #fff; color: #e84a7e; }
+.calendar .active p { font-weight: bold; }
+
+.calendar .text { width: 178px; padding: 0 10px 10px; border: 1px solid #fff; padding-top: 10px; background: #f1f1f1; color: #555; }
+.calendar .text h2 {font-size: 14px; margin-bottom: 10px; }
+.calendar .text p { font-size: 12px; line-height: 18px; }
+
+</style>
+<script>
+   /* 思路：1.当页面加载完毕后获取所有需要操作的节点对象
+            2.
+    */
+	window.onload = function(){
+	   var lis = document.querySelectorAll("#box li");
+	   var h = document.getElementById("h");
+	   var p = document.getElementById("p");
+	   var innerarr = ["内容1","内容2","内容3","内容4","内容5","内容6","内容7","内容8","内容9","内容10","内容11","内容12"];
+	   //alert(lis.length);
+	   for(var i=0;i<lis.length;i++){
+		  lis[i].index = i;
+	      lis[i].onclick = function(){
+		     // alert(this.innerHTML);
+			for(var j=0;j<lis.length;j++){
+			    lis[j].className="";
+			} 
+			this.className="active";
+			h.innerHTML=this.index+1+"月份活动";
+			p.innerHTML=innerarr[this.index];
+		  }
+	   }
+	
+	
+	}
+</script>
+ </head>
+ <body>
+  <div id="tab" class="calendar">
+
+    <ul id="box">
+        <li class="active"><h2>1</h2><p>JAN</p></li>
+        <li ><h2>2</h2><p>FER</p></li>
+        <li ><h2>3</h2><p>MAR</p></li>
+        <li ><h2>4</h2><p>APR</p></li>
+        <li ><h2>5</h2><p>MAY</p></li>
+        <li><h2>6</h2><p>JUN</p></li>
+        <li><h2>7</h2><p>JUL</p></li>
+        <li><h2>8</h2><p>AUG</p></li>
+        <li><h2>9</h2><p>SEP</p></li>
+        <li><h2>10</h2><p>OCT</p></li>
+        <li><h2>11</h2><p>NOV</p></li>
+        <li><h2>12</h2><p>DEC</p></li>
+    </ul>
+    
+    <div class="text" id="txt">
+        <h2 id="h">1月活动</h2>
+        <p id="p">去北京</p>
+    </div>
+
+</div>
+ </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>window.print</title>
+</head>
+<body>
+	//HTML Page
+	//Other content you wouldn't like to print
+	<input name="b_print" type="button" class="ipt"   onClick="printdiv('div_print');" value=" Print ">
+
+	<div id="div_print">
+
+	<h1 style="Color:Red">The Div content which you want to print</h1>
+
+	</div>
+	//Other content you wouldn't like to print
+	//Other content you wouldn't like to print
+</body>
+<script>
+	function printdiv(printpage){
+		var opt;
+		var headStr = "<html><title></title><body>";
+		var footerStr = "</body>";
+		var newStr = document.all.item(printpage).innerHTML;
+		var oldStr = document.body.innerHTML;
+		document.body.innerHTML = headStr+newStr+footerStr;
+		window.print();
+		document.body.innerHTML = oldStr;
+		return false;
+	}
+</script>
+</html>

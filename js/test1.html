@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		/*
+		name = 'this is window';
+		var obj = {name:'php',t:function(){
+		console.log(this.name)
+		}};
+		var dog = {name:'i am a dog'}
+		//第1个问题
+		// obj.t();
+		//第2个问题
+		// dog.t = obj.t;
+		// dog.t();
+		//第3个问题
+		console.log(obj.t);
+		(dog.t = obj.t)()
+		//第4个问题
+		// var tmp = dog.t;
+		// tmp();
+		*/
+	</script>
+</head>
+<body>
+	<p id="one" class="one">111111</p>
+	<p id="one">111111</p>
+	<p id="one">111111</p>
+	<p id="one">111111</p>
+</body>
+<script>
+	name = 'this is window';
+var obj = {name:'php',t:function(){
+console.log(this.name)
+}};
+var dog = {name:'i am a dog'}
+// console.log(1);
+(dog.t = obj.t)();
+
+</script>
+</html>

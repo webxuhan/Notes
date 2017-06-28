@@ -1,0 +1,106 @@
+1.新添加一个会话 cookie：
+	$.cookie('the_cookie', 'the_value');
+注：当没有指明cookie有效时间时，所创建的cookie有效期默认到用户关闭浏览器为止，所以被称“会话cookie（session cookie）”。
+
+2.创建一个cookie并设置有效时间为 7天:
+	$.cookie('the_cookie', 'the_value', { expires: 7 });
+注：当指明了cookie有效时间时，所创建的cookie被称为“持久 cookie （persistent cookie）”。
+
+3.创建一个cookie并设置 cookie的有效路径：
+	$.cookie('the_cookie', 'the_value', { expires: 7, path: '/' });
+注：在默认情况下，只有设置cookie的网页才能读取该cookie。如果想让一个页面读取另一个页面设置的cookie，必须设置cookie的路径。cookie的路径用于设置能够读取 cookie的顶级目录。将这个路径设置为网站的根目录，可以让所有网页都能互相读取 cookie （一般不要这样设置，防止出现冲突） 。
+
+4.读取cookie：
+	$.cookie('the_cookie'); // cookie存在 => 'the_value'
+	$.cookie('not_existing'); // cookie不存在 => null
+
+5.删除cookie，通过传递null作为cookie的值即可：
+	$.cookie('the_cookie', null);
+
+$.cookie('the_cookie'); // 获得cookie
+$.cookie('the_cookie', 'the_value'); // 设置cookie
+$.cookie('the_cookie', 'the_value', { expires: 7 }); //设置带时间的cookie
+$.cookie('the_cookie', '', { expires: -1 }); // 删除
+$.cookie('the_cookie', null); // 删除 cookie
+$.cookie('the_cookie', 'the_value', {expires: 7, path: '/', domain: 'jquery.com', secure: true});//新建一个cookie 包括有效期 路径 域名等
+
+6.这个插件默认的过期是按天数计算的，我们可以修改下，按毫秒计算，修改如下
+if (typeof options.expires === 'number') {
+   //var days = options.expires, t = options.expires = new Date();
+   //t.setDate(t.getDate() + days);
+   var seconds = options.expires, t = options.expires = new Date();
+   t.setTime(t.getTime() + seconds);
+   //t.setTime(t.getTime() + days);
+   //date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
+}
+
+7.例子：我们需要对某个页面进行阅读统计，但是呢，在一段时间里（比如5分钟），同一个人无论刷新了这个页面多少次都好，都只能算一次。
+<script language="javascript" src="/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script language="javascript" src="/js/jquery.jsonp-2.1.4.min.js"></script>
+<script type="text/javascript">
+	 // 页面类型，标识一组页面
+	 var pageType = 20110420;
+	 // 页面id，标识唯一一个页面
+	 var url = window.location.href;
+	 var url_arr = url.split(".");
+	 var id = url_arr[url_arr.length - 2];
+	 //var id = 2;
+	 //var cookie = $.cookie('the_cookie'+id, true, { expires: 5/24/60/60 });
+	 $(document).ready(function(){
+	  init_count(pageType, id);
+	 })
+	 // 初始化数据，同一个cookie一分钟的访问量都算一次
+	 function init_count(pageType, id){
+	  if($.cookie('the_cookie'+id)){
+	   //alert("cookie已存在");
+	   getViewData(pageType, id);
+	  }
+	  else
+	  {
+	   // 1分钟过期
+	   var cookie = $.cookie('the_cookie'+id, 'Gonn', { expires: 1000 * 60 * 5 });
+	   //$.cookie('the_cookie'+id, 'Gonn');
+	   //var cookie = $.cookie('the_cookie'+id);
+	   //alert(cookie);
+	   insert_page(pageType, id);
+	  }
+	 }
+	 // 不插入与更新时统计访问量
+	 function getViewData(pageType, id){
+	  $.ajax({
+	   type: "get",  //使用get方法访问后台
+	   dataType: "jsonp", //返回json格式的数据
+	   jsonp:"callback",
+	   url: "/manage.php", //要访问的后台地址
+	   data:{"opp":"view", "pageType":pageType, "id":id},
+	   async: false,
+	   success: function(data){
+	    //alert(data.total);
+	    $('#pc_1').html(data.total);
+	    $('#pcm_1').html(data.record);
+	   }
+	  })
+	 }
+	 // 插入或者更新页面统计
+	 function insert_page(pageType, id){
+	  var j = null;
+	  $.ajax({
+	   type: "get",  //使用get方法访问后台
+	   dataType: "jsonp", //返回json格式的数据
+	   jsonp:"callback",
+	   url: "/manage.php", //要访问的后台地址
+	   data:{"opp":"insert", "pageType":pageType, "id":id},
+	   async: false,
+	   success: function(data){
+	    //alert(msg.current);
+	    //alert(msg.record);
+	    j = data;
+	    //alert("111");
+	    //alert(j.total);
+	    $('#pc_1').html(data.total);
+	    $('#pcm_1').html(data.record);
+	   }
+	  })
+	 }
+</script>

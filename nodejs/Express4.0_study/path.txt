@@ -1,0 +1,56 @@
+1.路径区别：
+app.use('/adcd',function(req,res,next){  //  /adcd
+	next();
+});
+
+
+app.use('/abc?d',function(req,res,next){  //   /abcd and  /abd
+	next();
+});
+
+
+app.use('/ab+cd',function(req,res,next){  //  /abcd, /abbcd, /abbbcd and so on 
+	next();	
+});
+
+
+app.use('/ab\*cd',function(req,res,next){ //  /abcd, /abscd, /abWTFFejihcd and so on
+	next();
+});
+
+
+app.use('/a(bc)?d',function(req,res,next){ //  /ad and /abcd
+	next();
+});
+
+Regular Expression
+app.use(/\/abc|\/xyz/, function (req, res, next) { //  /abc and /xyz
+  next();
+});
+
+Array
+app.use(['/abcd', '/xyza', /\/lmn|\/pqr/], function (req, res, next) { // /abcd, /xyza, /lmn, and /pqr
+  next();
+});
+
+
+2.res.location(路径) --设置响应Location HTTP标头指定的path参数。
+	res.location('/foo/bar');
+	res.location('http://example.com');
+	res.location('back');
+
+3.res.redirect([状态,]路径)  --重定向到从指定dervied的URL path，以指定的 HTTP状态代码 status。如果没有指定status，状态码默认为“302‘发现’。
+	res.redirect('/foo/bar');
+	res.redirect('http://example.com');
+	res.redirect(301, 'http://example.com');
+	res.redirect('../login');
+1>重定向可以相对于主机名的根。
+例如，如果应用程序是http://example.com/admin/post/new，下面会重定向到URL http://example.com/admin：
+	res.redirect('/admin');	
+2>重定向可以相对于当前的URL。(原始路径后面有/)
+例如，从http://example.com/blog/admin/（注意最后的斜线），下面将重定向到URL http://example.com/blog/admin/post/new。
+	res.redirect('post/new');
+注意：当http://example.com/blog/admin（没有尾斜线，将会替换最后一个dictionary）变为http://example.com/blog/post/new
+3>重定向到上一级
+	res.redirect('..');
+	res.redirect('back');

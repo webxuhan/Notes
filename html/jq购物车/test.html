@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/strOper.js"></script>
+    <script>
+        //字符串A：SA1001#洗衣机#768#1
+        //字符串B：SA1002#冰箱#2000#1
+        //字符串C：SA1001#洗衣机#768#2
+
+        //实现一个函数：addStr ，接收2个参数
+        //第一个参数如果A，第二个参数如果是B
+        //返回结果：SA1001#洗衣机#768#1|SA1002#冰箱#2000#1
+
+        //第一个参数如果A，第二个参数如果是C
+        //返回结果：SA1001#洗衣机#768#3
+
+        function addStr(str1,str2){
+            var newArr = [];  //创建一个数组来保存每一行产品数据
+            var row = str1.split("|");//对原有字符串按照行数分隔
+            var isAdd = true;
+            //循环每一行数据，从每行中获取到第一列ID进行比对
+            for(var i = 0; i < row.length; i++){
+                //将每行数据用#号分隔变成列
+                var colArr1 = row[i].split("#");
+                //将新传来的产品数据用#号分隔变成列
+                var colArr2 = str2.split("#");
+                //判断原有数据中每一行的第一列的ID是否与新传来数据的ID相同
+                if(colArr1[0] == colArr2[0]){
+                    //若相同对该行数据的数量进行更新并且追加新数据开关变为false
+                    isAdd = false;
+                    var count1 = colArr1[3];
+                    var count2 = colArr2[3];
+                    colArr1[3] = parseInt(count1) + parseInt(count2);
+                }
+                //将原有数据中的每一行数据放入新数组
+                newArr.push(colArr1.join("#"));
+            }
+            //若追加数据开关状态为打开则追加数据
+            if(isAdd){
+                newArr.push(str2);
+            }
+            return newArr.join("|"); //将新数组中的每一行数据使用竖线相连并返回
+        }
+        // var result = addStr("SA1001#洗衣机#768#1|SA1002#冰箱#2000#1|SA1003#电脑#3000#1","SA1004#冰箱#2000#5");
+        // console.log(result);
+
+
+        //实现一个函数：getStr，接收一个参数
+        //将用#|分隔的字符串转为JSON对象
+        function getStr(str){
+            var newArr = [];
+            var row = str.split("|");
+            for(var i = 0; i < row.length; i++){
+                var colArr = row[i].split("#");
+                var obj = {id:colArr[0],name:colArr[1],price:colArr[2],count:colArr[3]};
+                newArr.push(obj)
+            }
+            return newArr;
+        }
+
+        // var result = getStr("SA1001#洗衣机#768#1|SA1002#冰箱#2000#1|SA1003#电脑#3000#1")
+        // console.table(result);
+        //实现一个函数：delStr,接收2个参数
+        //将参数2的字符串在参数1的字符串中删除
+        function delStr(str,id){
+            var newArr = [];
+            var row = str.split("|");
+            for(var i = 0; i < row.length; i++){
+                var colArr = row[i].split("#");
+                if(colArr[0] != id){
+                    newArr.push(colArr.join("#"));
+                }
+            }
+            return newArr.join("|");
+        }
+
+        // console.log(delStr("SA1001#洗衣机#768#1|SA1002#冰箱#2000#1|SA1003#电脑#3000#1","SA1002"));
+        //
+        // var json = strOper.get("SA1001#洗衣机#768#1|SA1002#冰箱#2000#1|SA1003#电脑#3000#1");
+        // console.log(json);
+
+        strOper.add("SA1001#洗衣机#768#1|SA1002#冰箱#2000#1","SA1003#电脑#3000#1");
+    </script>
+</head>
+<body>
+
+</body>
+</html>

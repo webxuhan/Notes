@@ -1,0 +1,12 @@
+process.chdir():切换工作目录到指定目录
+process.cwd():返回运行当前脚本的工作目录的路径
+	注意，process.cwd()与__dirname的区别。前者进程发起时的位置，后者是脚本的位置，两者可能是不一致的。比如，node ./code/program.js，对于process.cwd()来说，返回的是当前目录（.）；对于__dirname来说，返回是脚本所在目录，即./code/program.js
+process.exit():退出当前进程
+process.getgid():返回当前进程的组ID(数值)
+process.getuid():返回当前进程的用户ID(数值)
+process.nextTick():指定回调函数在当前执行栈的尾部，下一次EventLoop之前执行
+process.on():监听事件
+process.setgid():指定当前进程的组，可以使用数字ID，也可以使用字符串ID
+process.setuid():指定当前进程的用户，可以使用数字ID，也可以使用字符串ID
+
+http://javascript.ruanyifeng.com/nodejs/process.html#toc8

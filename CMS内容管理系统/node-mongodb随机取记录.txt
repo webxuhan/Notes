@@ -1,0 +1,15 @@
+Content.find({'type' : 'content'}).count(function(err,count){
+                    var randomNum = Math.floor(count*Math.random());
+                    var randomList = Content.find({'type' : 'content'}).sort({'date':-1}).skip(randomNum).limit(4);
+                    res.render('web/temp/'+result.contentTemp+'/detail', {
+ 
+                        randomList : randomList,
+                        
+                    });
+                });
+
+1、我们可以用过 Content.find().count 根据条件查询到符合条件的结果个数。
+2、根据获取的个数通过Math方法取得随机数 
+	Math.floor(count*Math.random())
+3.将获取的随机数作为skip的参数查询返回到前端
+Content.find({'type' : 'content'}).sort({'date':-1}).skip(randomNum).limit(4);

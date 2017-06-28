@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="javascript:;" id="header_back"><i class="icon_back"></i></a>
+            <h3>用户注册</h3>
+        </div>
+        <div class="section">
+            <div class="info">
+                <label>
+                    <span>账户名称</span>
+                    <input type="text" id="username" placeholder="请输入账户">
+                </label>
+                <span class="error"></span>
+            </div>
+            <div class="info">
+                <label>
+                    <span>登录密码</span>
+                    <input type="password" id="pwd" placeholder="请输入密码">
+                </label>
+                <span class="error"></span>
+            </div>
+            <div class="info">
+                <label>
+                    <span>确认密码</span>
+                    <input type="password" id="repwd" placeholder="请输入密码">
+                </label>
+                <span class="error"></span>
+            </div>
+            <div class="info">
+                <button id="register">确定注册</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/ajax.js"></script>
+    <script src="js/register.js"></script>
+</body>
+</html>

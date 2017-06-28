@@ -1,0 +1,18 @@
+var updateStr2 = function(str,id,count){
+console.time("方法2");
+var newStr = "";
+var rowArr = str.split("|");
+for(var i = 0; i < rowArr.length; i++){
+   var colArr = rowArr[i].split("#");
+   var n = colArr[1];
+   if(id == colArr[0]){
+       n = count;
+   }
+   var splitStr = i == 0 ? "" : "|";
+   newStr += splitStr + colArr[0] + "#" + n + "#" + colArr[2] + "#" + colArr[3];
+}
+    console.timeEnd("方法2");
+    return newStr;
+}
+var result2 = updateStr2("SA1001#1#洗衣液#50|SA1002#1#洗衣粉#10|SA1003#1#洗衣粉#10","SA1003","5");
+console.log(result2);

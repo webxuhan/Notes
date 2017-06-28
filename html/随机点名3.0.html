@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>随机点名demo</title>
+  <style>
+     #box{
+	     width:500px;
+		 height:500px;
+		 background:pink;
+	   }
+	   #btn{
+	     width:500px;
+		 height:50px;
+	     background:cayn;
+	   }
+	   .stuname{
+	     width:500px;
+		 height:450px;
+		 text-align:center;
+		 line-height:450px;
+		 font-size:32px;
+	   }
+  </style>
+ </head>
+ <body>
+      <script>
+	      window.onload=function(){
+		     var btn = document.getElementById("btn");
+			 var start = document.getElementById("start");
+			 var name = document.getElementById("name");
+			 var end = document.getElementById("end");
+			 var arr = ["张伍","王昌","胡林鹏","彭飞","陈莎莎","孔维娜","张灿照","王永建","谷伟","欧阳学海","邝云霞","张妍妍","王胡元","韦鹏程","陈松","罗小伟","盛兴旺","高鑫","王恒图","何发剑","陶许娟","张陆彤","熊佳丽","安玉帮","宋群","曾庆森","黄鑫艳","黄云龙","李鹏辉","王帆","肖新德","张峰","陈晓莹","王子朋","徐宏杰","苏晓玉","段盼盼","武宏阳","巩尧","徐志文","张国伟","粟本利","张东胜","包新宇","王传奇","曾文汇","田凤玲","曲海悦","熊威","任自强","付为民","杨云飞","杨浩","吕富久","俞文斌","俞日武","羊益龙","袁志远","姚洁","杨文博","李金浩","乔宇","冉亚","刘洪彬","窦云龙"];
+		     var index;
+			 var timer = null;
+			 var count = 0;
+			 btn.onclick=function(){
+			     clearInterval(timer);
+				 count++;
+				 btn.innerHTML="停止点名";
+				 timer = setInterval(function(){
+				     index = parseInt(Math.random()*arr.length);
+				     stuname = arr[index];
+			         name.innerHTML=stuname;
+				 },100)
+
+				 if(count%2==0){
+				   clearInterval(timer);
+				   btn.innerHTML="开始点名";
+				 }
+			 }
+			
+				 
+		  }
+	  
+	  </script>
+    <div id="box">
+	   <div id="start" class="begin">
+	      <button id="btn">开始点名</button>
+	   </div>
+	   <div id="name" class="stuname">
+	       随机点名！
+	   </div>
+	</div>
+ </body>
+</html>

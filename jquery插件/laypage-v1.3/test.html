@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+</head>
+<body>
+	<div class="demo"></div>
+</body>
+<script src="jquery.js"></script>
+<script src="laypage/laypage.js"></script>
+<script>
+	$(function(){
+		alert(1);
+		$(".demo").laypage({  
+            cont: 'page1', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>  
+            pages: res.pageCount, //通过后台拿到的总页数  
+            curr: 1, //初始化当前页  
+            skin: '#429842',//皮肤颜色  
+            groups: 3, //连续显示分页数  
+            skip: true, //是否开启跳页  
+            first: '首页', //若不显示，设置false即可  
+            last: '尾页', //若不显示，设置false即可  
+            //prev: '<', //若不显示，设置false即可  
+            //next: '>', //若不显示，设置false即
+            
+});
+	})
+</script>
+</html>

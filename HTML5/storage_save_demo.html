@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>storage数据保存</title>
+	<style>
+		#content{
+			border:1px solid #158687;
+			width: 300px;
+			height: 200px;
+		}
+	</style>
+</head>
+<body>
+	<section>
+		<label for="one">请输入姓名:</label>
+		<input type="text" id="one">
+		<br>
+		<label for="two">请输入性别:</label>
+		<input type="text" id="two">
+		<div>
+			<button>保存</button>
+			<button>显示</button>
+		</div>
+		<hr>
+		<div id="content"></div>
+	</section>
+</body>
+<script>
+	console.log(sessionStorage.constructor);
+	console.log(localStorage.constructor);
+	var one = document.getElementById("one");
+	var two = document.getElementById("two");
+	var btns= document.getElementsByTagName("button");
+	var content = document.getElementById("content");
+
+	//var aa;
+	//var bb;
+	btns[0].onclick = function () {
+	    var a = one.value;
+	    var b = two.value;
+	    if(a && b){
+	        //sessionStorage.setItem("name",a)
+	        //sessionStorage.setItem("age",b)
+	        localStorage.setItem("name",a);
+	        localStorage.setItem("age",b);
+	        alert("保存成功");
+	    }else{
+	        alert("请完善输入");
+	    }
+	};
+	btns[1].onclick = function () {
+	    //var name = sessionStorage.getItem("name");
+	    //var age = sessionStorage.getItem("age");
+	    var name = localStorage.getItem("name");
+	    var age = localStorage.getItem("age");
+	    content.innerText = "姓名"+name+",性别为:"+age;
+	};
+
+	window.onstorage  = function (event) {
+	    var key = event.key;
+	    var oldValue = event.oldValue;
+	    var newValue = event.newValue;
+	    var url = event.url;
+	    console.log("key:"+key);
+	    console.log("oldValue:"+oldValue);
+	    console.log("newValue:"+newValue);
+	    console.log("url:"+url);
+	}
+</script>
+</html>

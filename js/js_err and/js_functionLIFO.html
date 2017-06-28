@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		/*
+		 *函数调用栈的原理:当有一个函数被调用的时候，它就被压入到堆栈的顶部，该函数运行完成之后，又会从堆栈的顶部被移除
+		*/
+		function c() {
+		    console.log('c');
+		    console.trace(); //此行须在node环境下执行，显示顺序c,b,a
+		}
+		 
+		function b() {
+		    console.log('b');
+		    c();
+		}
+		 
+		function a() {
+		    console.log('a');
+		    b();
+		}
+		 
+		a();
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

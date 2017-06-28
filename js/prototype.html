@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>js对象封装的常用方式</title>
+	<script>
+		/*常规封装*/
+		/*
+		function Person (name,age,sex) {
+			this.name = name;
+			this.age = age;
+			this.sex = sex;
+		}
+		Person.prototype = {
+			constructor : Person,
+			sayHello : function (){
+				console.log('hello');
+			}
+		}
+		*/
+		/*end*/
+		/*升级版(常见)*/
+		/*
+		function Person (info){
+			this._init_(info);
+		}
+		Person.prototype = {
+			constructor: Person,
+			_init_ : function (info) {
+				this.name = info.name;
+				this.age = info.age;
+				this.sex = info.sex;
+			}
+			sayHello : function(){
+				console.log('hello');
+			}
+		}
+		*/
+		/*new的执行原理*/
+		/*
+		var myNew = function(constructor,args){
+			var o = {};
+			o.__proto__ = constructor.prototype; //原型链继承
+			var res = constructor.apply(o,args);
+			var type = typeof res;
+			if (['string','number','boolean','null','undefined'].indexOf(type)!== -1) {
+				return o;
+			}
+			return res;
+		}
+		*/
+		/*
+			解释：首先var o = {} 构造一个空对象。然后将构造函数的原型属性prototype赋给o的原型对象__proto__。
+		*/
+		/*测试*/
+		/*
+		function Person(name){
+			this.name = name;
+		}	
+		Person.prototype.sayHello = function (){
+			console.log(this.name);
+		}
+		var o1 = myNew(Person,['pawn']);
+		console.log(o1);
+		o1.sayHello();
+		*/
+		/*object.create()*/
+		/*js也提供了一种构造对象的方式，可以传递一个对象Person,构造一个p,并且使p继承了Person*/
+		var Person = {
+			name : 'xinleaf',
+			sayHello :  function(){
+				console.log(this.name);
+			}
+		}
+		var p = Object.create(Person);
+		console.log(p);
+		p.sayHello();
+		/**/
+		Object.create = function (prototype) {
+			function Func(){};
+			Func.prototype = prototype;
+			var o = new Func();
+			return o;s
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

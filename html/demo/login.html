@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h3>用户登录</h3>
+        </div>
+        <div class="section">
+            <div class="info">
+                <input type="text" id="username" placeholder="请输入账户">
+            </div>
+            <div class="info">
+                <input type="password" id="pwd" placeholder="请输入密码">
+            </div>
+
+            <div class="info infoPwd">
+                <label for="showPwd">
+                    <input type="checkbox" id="showPwd">
+                    显示密码
+                </label>
+                <a href="javascript:;" id="forgetPwd">忘记密码？</a>
+            </div>
+
+            <div class="info infoPwd">
+                <label for="rememberPwd">
+                    <input type="checkbox" id="rememberPwd">
+                    记住密码自动登录
+                </label>
+            </div>
+
+            <div class="info">
+                <a href="javascript:;" id="login"><span>登录</span></a>
+            </div>
+            <div class="info">
+                <a href="register.html" id="register"><span>注册</span></a>
+            </div>
+        </div>
+    </div>
+    <script src="js/ajax.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

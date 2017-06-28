@@ -1,0 +1,27 @@
+1.参数/方法
+content 	提示工具条中的内容，默认是从元素的title属性中获取。
+className 	提示工具条的样式
+showTimeout 	提示工具条出现前的过渡时间
+hideTimeout 	提示工具条消失的过渡时间
+showOn 	提示工具条触发方式，有'hover', 'focus', 'none'三种方式
+alignX 	提示工具条出现在水平方向相对当前元素的位置，有'right', 'center', 'left', 'inner-left', 'inner-right'
+alignY 	提示工具条出现在垂直方向相对当前元素的位置，有'bottom', 'center', 'top', 'inner-bottom', 'inner-top'
+offsetX 	相对X方向位移，数字
+offsetY 	相对Y方向位移，数字
+hideTimeout 	工具条消失的过渡时间
+hideTimeout 	工具条消失的过渡时间
+allowTipHover 	允许鼠标滑向工具条上方
+fade 	是否使用渐隐渐显动画，true/false
+slide 	是否使用滑动动画，true/false
+方法：show 	.poshytip('show')，手动触发显示提示工具条
+方法：hide 	.poshytip('hide')，手动触发隐藏提示工具条
+方法：disable 	.poshytip('disable')，手动触发禁用提示工具条
+方法：enable 	.poshytip('enable')，手动触发启用提示工具条
+View plain code
+
+View plain code
+
+git clone git://github.com/vadikom/poshytip.git
+
+
+

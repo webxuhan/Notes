@@ -1,0 +1,153 @@
+1.如何判断一个对象是不是jQuery对象？
+	var $xin = jQuery("#my_div");
+	alert($xin instanceof jQuery); //返回true则是jQuery对象
+	alert(typeof($xin)); //object 这个判断不出来
+
+2.ready()函数和onload事件
+	window对象的onload事件:当某个元素加载完毕的时候触发.
+	 注:网页中所有DOM结构加载完毕后就执行ready方法中定义的匿名函数，可能dom元素关
+         联的东西并没有加载完(图片等资源),效果和onload事件一样,但是执行效率比onload
+         高,因为不需要等待页面中图片等资源的加载完毕.
+ 	简写形式:
+ 	$(function(){
+ 		// do somethings
+ 	});
+ 	==>
+ 	$(document).ready(function(){
+
+ 	});
+
+3.jQuery对象
+  $()的返回值是一个jQuery对象，jQuery对象是类数组对象：拥有length属性和介于0~length-1之间的数值属性。
+  	size()  替代length属性
+  	get()	替代方括号索引
+  	toArray()	将jQuery对象转换为真实数组
+  	selector	创建jQuery对象时选择器字符串
+  	context	上下文对象
+  	jQuery 	字符串形式的jQuery版本号
+  1>jquery对象 转换为 DOM对象
+  	jquery对象是一个数组对象，可以通过[index]方法得到相应的DOM对象 对象名[index],也可以通过get(index)方法获得， 对象名.get(index)
+  2>DOM对象转换成jquery对象
+
+4.选择器
+1>基本选择器
+	1)	id选择器	$("#myId");
+	2)	class选择器	$(".myClass");
+	3)	标签选择器	$("table");
+	4)	*选择器		获得所有元素
+	5)	组合选择器 selector1,selector2,selector3
+		多个选择器指定任意多个选择器，并将匹配到的元素合并到一个结果内	$("div,span,p.myClass")
+2>层次选择器:通过Dom元素之间的层次关系来获取特定元素
+	1)后代选择器 $("ancestor descendant")
+	ancestor:	任何有效的选择器
+	descendant: 一个用来筛选后代元素的选择器。
+	2)子代选择器	$("parent>child")
+	parent:任何有效的选择器。 child：用来筛选子元素的选择器.它只会选择第一级的后代
+	3)相邻兄弟选择器	$("prev+next") 等价于 $("prev").next()
+	4)一般兄弟选择器	$("prev~siblings")
+		例如:
+	 	<div>
+			<div id="div1"></div>
+			<div id="div2"></div>
+			<div id="div3"></div>
+			<div id="div4"></div>
+			<span></span>
+			<span></span>
+			<span></span>
+	 	</div>
+	 	$("#div2~span") 获得div2后面的所有的span元素(三个)
+	 	$("#div2~div") 获得div2【后面】的所有的div元素(俩个)
+	 	$("#div2").siblings("div") 获得div2的【所有】的div兄弟元素(三个)
+3>过滤选择器:通过特定的过滤规则来筛选所需的DOM元素，过滤选择器都以冒号：开头
+	1)基本过滤器
+		:first	选取当前匹配成功的元素中的第1个元素		
+		:last	选取当前匹配成功的元素中的最后一个元素		$("tr:last")
+		:not(selector)	去除所有与给定选择器匹配成功的元素	$("iput:not(.myclass)")
+
+	//------------与索引有关的[索引从0开始]-----------
+		:even	选取索引是偶数的所有元素，索引从0开始，所以:even选择器是选择第一个元素，第三个元素
+		:odd	选取索引是奇数的所有元素
+		$("tr:odd").css("background-color", "red");
+			推荐使用.filter(":odd")方法，效率更高   
+		$("tr").filter(":odd").css("background-color", "red");
+
+		:eq(index)	选取索引等于index的元素		推荐使用.eq(index)方法
+		:gt(index)	选取索引大于index的元素		推荐使用.slice(index)
+		:lt(index)	选取索引小于index的元素		推荐使用.slice(0,index)
+		$("tr:lt(3)").css("background-color", "red");
+		推荐使用.slice(0, index)
+		$("tr").slice(0,3).css("background-color", "red");
+
+	//----------其他特殊情况---------
+		:header		选取所有标题元素,例如h1,h2,h3等		推荐使用$("*").filter(":header")
+		:animated	选取当前正在执行动画的所有元素	
+			$("div:animated").toggleClass("colored");
+	2>内容过滤器
+		:contains(text)	选取含有文本内容为"text"的元素匹配的文本可以直接出现在所选的元素中，或在该元素的任何后代中，或两者兼有。
+		$("div:contains('wuxin')").css("color","green");将含有wuxin的div内的文字变成绿色
+
+		:empty	选取不包含子元素或者文本的空元素
+			$("div:empty").text("Was empty!")
+			或者
+			$("div:empty").html("Was empty!")
+		:has(selector)	选取含有某些指定元素的
+			如果表达式 $('div:has(p)') 匹配一个 <div>，那么应有一个<p>存在于 <div>后代元素中的任何地方，不是直接的子元素也可以。
+			$("div:has('span')") 等价于 $("div:has(span)")
+		:parent	选取含有子元素或者文本的元素，这个正好和:empty相反
+			$("div:parent").fadeTo(1500, 0.3);	所有包含子元素的div在1500毫秒内将其透明度变为0.3
+	3>可见性过滤选择器
+		:hidden
+			选取所有隐藏的元素
+		主要指的是:
+		CSS display:none;  type="hidden"的表单元素
+	4>属性过滤器
+		语法：selector[属性过滤器]
+		selector[attrKey]			获取所有已选择到的元素中具有属性attrKey的元素
+		selector[attrKey=attrVal]	获取所有已选择到的元素中具有属性attrKey，并且属性值为attrVal的元素
+		selector[attrKey^=attrVal]	获取所有已选择到的元素中具有属性attrKey，并且属性值为以attrVal开头的元素
+		selector[attrKey$=attrVal]	获取所有已选择到的元素中具有属性attrKey，并且属性值为以attrVal结尾的元素
+		selector[attrKey*=attrVal]	获取所有已选择到的元素中具有属性attrKey，并且属性值为包含attrVal的元素
+		selector[attrKey!=attrVal]	获取所有已选择到的元素中具有属性attrKey，并且属性值不为以attrVal的元素或者没有属性attrKey的元素
+		selector[attrKey1][attrKey2]
+		$("div['class']['title']")
+	5>后代过滤器	【注意】空格与>的区别
+		selector :nth-child(index)
+		获取每个selector元素中索引为index的子元素【注意】index从1开始
+		selector :first-child
+		selector :last-child	
+		selector :only-child	
+		selector :first-of-type		获取每个selector元素中每种类型子元素中的第一个
+		selector:last-of-type		获取每个selector元素中每种类型子元素中的最后一个
+	6> 表单过滤器：主要是对选择的表单元素进行过滤。
+      	:enabled		
+			选取所有可用元素该选择器仅可用于选择支持disabled属性（attribute）的HTML元素(<button>, <input>, <optgroup>, <option>, <select>, 和 <textarea>)。
+      	:disabled		
+        	选取所有不可用的元素该选择器也是仅可用于支持disabled属性的HTML元素
+      	:checked		
+        	选取所有被选中的元素，用于复选框和单选框,下拉框
+      	:selected		
+        	选取所有被选中的选项元素，该选择器只适用于<option>元素
+        :focus
+        	选择当前获取焦点的元素。
+      	:input		
+       		选取所有的<input><textarea><select><button>元素
+			$(":input")现在可以让用户输入的标签元素
+			$("input")选择名字为input的标签元素
+      	:text		
+			选取所有的单行文本框（<input type="text">）
+      	:password		
+      		选取所有的密码框
+      	:radio		
+      		选取所有的单选框
+      	:checkbox		
+      		选取所有的多选框
+      	:submit		
+      		选取所有的提交按钮
+      	:image		
+      		选取所有input类型为image的表单元素
+      	:reset		
+      		选取所有input类型为reset的表单元素
+      	:button
+      		选取所有input类型为button的表单元素
+      	:file
+      		选取所有input类型为file的表单元素

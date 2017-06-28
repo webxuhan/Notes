@@ -1,0 +1,121 @@
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			ul{
+				list-style: none;
+			}
+			.fdj{
+				margin: 40px;
+				overflow: hidden;
+			}
+			/*左边的盒子*/
+			.box-left{
+				float: left;
+			}
+			/*右边的大盒子*/
+			.box-right{
+				float: right;
+				margin-right: 200px;
+				width: 600px;
+				height: 600px;
+				border: 1px solid #CCCCCC;
+				overflow: hidden;
+				display: none;
+				position: relative;
+			}
+			.box-right.active{
+				display: block;
+			}
+			/*左边的盒子相关的布局*/
+			.box-left .top{
+				width: 400px;
+				border: 1px solid #ccc;
+				position: relative;
+				overflow: hidden;
+				cursor: move;
+			}
+			.box-left .top img{
+				width: 400px;
+				display: none;
+			}
+			.box-left .top img.active{
+				display: block;
+			}
+			/*左边的tab切换按钮*/
+			.box-left .bottom{
+				padding: 10px 0;
+				position: relative;
+			}
+			/*按钮定位*/
+			.box-left .bottom .btn{
+				position: absolute;
+				width: 50px;
+				font: bold 58px/58px "宋体";
+				text-align: center;
+				cursor: pointer;
+				left: 0;
+				top:10px;
+				color: #ccc;
+			}
+			.box-left .bottom .btn.btn-left{
+				left: 0;	
+			}
+			.box-left .bottom .btn.btn-right{
+				left: 352px;
+			}
+			/*小图片tab*/
+			.box-left .bottom .tabs{
+				height: 58px;
+				width: 290px;
+				margin: 0 auto;
+				position: relative;
+				overflow: hidden;
+				
+				
+			}
+			.box-left .bottom .tabs ul{
+				position: absolute;
+				width: 696px;
+				left: 0;
+			}
+			.box-left .bottom .tabs li{
+				float: left;
+				width: 50px;
+				border: 1px solid #fff;
+				background-color: #fff;
+				padding: 0 3px;
+			}
+			.box-left .bottom .tabs li.active{
+				border-color: red;
+			}
+			
+			.box-left .bottom .tabs li img{
+				width:50px;
+			}
+			/*右边的盒子的图片*/
+			.box-right img{
+				width: 1200px;
+				display: none;
+				position: absolute;
+				left: 0;
+				right: 0;
+			}
+			.box-right img.active{
+				display: block;
+			}
+			/*左边的图片的放大镜*/
+			.box-left .top .tool{
+				width: 200px;
+				height: 200px;
+				background-color: #000;
+				position: absolute;
+				top:0;
+				left: 0;
+				opacity: 0.6;
+				filter: alpha(opacity=60);
+				display: none;
+			}
+			.box-left .top .tool.active{
+				display: block;
+			}

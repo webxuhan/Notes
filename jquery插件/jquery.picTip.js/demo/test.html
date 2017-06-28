@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>pictip</title>
+	<style type="text/css">
+		#pictip_demo{ position: relative; 
+		}
+	</style>
+	<script type="text/javascript" src="../../jquery-1.9.1.min.js"></script>
+	
+</head>
+<body>
+	<div id="pictip_demo"></div>
+
+	
+</body>
+<script type="text/javascript" src="../jquery.picTip.js"></script>
+<script type="text/javascript">
+		$("#pictip_demo").initToolTips({
+		    spots: [
+		        { 
+		            top: '50px', 
+		            left: '20px', 
+		            content: 'Hello!', 
+		            tooltipPosition:'br' //bottom-right
+		        }
+		    ]
+		});
+		var pictip = $("pictip_demo").data("pictip");
+	</script>
+</html>
