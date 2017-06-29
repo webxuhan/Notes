@@ -1,0 +1,97 @@
+
+1.XMLHttpRequest
+1)指定请求
+	1.实例化
+	var request = new XMLHttpRequest();
+	request为实例化的XMLHttpRequest对象，该对象可以重用，但是这将会终止之前通过该对象挂起的任何请求。
+
+	2.指定请求
+	open()
+		参数：
+			1.指定http方法或动作，取值可以为GET/POST/HEAD/DELETE/OPTIONS/PUT 
+				GET	:用于常规请求，适用于URL完全指定请求资源，请求对服务器没有任何副作用，服务器的响应是可缓存的
+				POST:用于HTML表单，它在请求主体中包含额外数据，且这些数据常存储到服务器上的数据库中。相同URL的重复POST请求从服务器得到的响应可能不同，同时不应该缓存使用这个方法的请求。
+			2.URL，跨域请求会报错
+			3.Boolean类型的值，如果值为false代表同步请求，send()方法将阻塞直到请求完成。这种情况下无需使用事件处理函程序，一旦send()返回，只需检查XMLHttpRequest对象的status和responseText属性。
+		request.open("GET","data.xml");
+	3.设定请求头
+	setRequestHeader();
+	参数：
+		1.key
+		2.value
+
+	request.setRequestHeader("Content-type","text/plain;charset=UTF-8");
+
+	4.指定可选的请求主体并向服务器发送
+	send()
+	参数：
+		请求主体内容，如果没有，为null,或者省略。
+	/*
+  	  使用POST方法发送纯文本给服务器
+	*/
+	function postMessage(url,msg){
+		var request = new XMLHttpRequest();
+		request.open("POST",url);
+		request.setRequestHeader("Content-type","text/plain;charset=UTF-8");
+		request.send(msg);
+	}
+
+2)取得响应
+	status 以数字形式返回HTTP状态码
+		200 OK
+		404 Not Found
+		403 forbidden JSONP
+		500 后台代码异常
+	statusText 以文本形式返回HTTP状态码
+	getResponseHeader()  获取指定响应头
+	getAllResponseHeaders()  获取所有响应
+	responseText  获取文本形式的响应体
+	responseXML  获取Documnent形式的响应体
+	readyState  返回HTTP请求状态
+	readyState		返回HTTP请求状态
+		0	open()尚未调用	UNSENT
+		1	open()已调用		OPENED
+		2	接收到头信息		HEADERS_RECEIVED
+		3 	接收到响应主体		LOADING
+		4 	响应完成			DONE
+	readystatechange 请求状态改变事件
+		当readyState值改变为4或服务器的响应完成时，所有的浏览器都触发该事件
+
+	/*
+	  获取HTTP响应
+	*/
+	function getText(url,callback){
+		var request = new XMLHttpRequest();
+		request.open("GET",url);
+		request.onreadystatechange = function(){
+			//如果请求完成，并且请求成功
+			if(request.readystate === 4 && request.status ===200){
+				var type = request.getResponseHeader("Content-type");
+				if(type.match(/^text/)){   //如果响应是文本
+					callback(request.responseText);
+				}
+			}
+		};
+		request.send(null);
+	}
+3)响应编码
+	1.MIME类型为text/plain,text/html,text/css 文本类型时，可以使用responseText属性解析
+	2.MIME类型为XML文档类型时，使用responseXML属性解析
+	3.如果服务器发送对象，数组这样的结构化数据作为其响应，他应该传输JSON编码的字符串数据。通过responseText接受到它，可以把它传递给JSON.parse()方法来解析。
+
+4.编码请求主体
+	1) 表单编码的请求
+		用于http请求的编码对象
+		function encodeFormData(data){
+			if(!data){
+				return "";
+			}
+			var pairs = [];
+			for(var name in data){
+				if(!data.hasOwnProperty(name)){
+					continue;
+				}
+				var vaule = data[name].toString();
+
+			}
+		}

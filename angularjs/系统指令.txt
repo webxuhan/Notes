@@ -1,0 +1,211 @@
+指令系统
+	指令就是一些附加在HTML元素上的自定义标记（例如：属性，元素，或css类），它告诉AngularJS的HTML编译器 ($compile) 在元素上附加某些指定的行为，甚至操作DOM、改变DOM元素，以及它的各级子节点。Angular内置了一整套指令，如ngBind,ngModel,和ngView。就像你可以创建控制器和服务那样，你也可以创建自己的指令来让Angular使用。当Angular启动器引导你的应用程序时，HTML编译器就会遍历整个DOM，以匹配DOM元素里的指令。
+
+	Angular提供的所有指令都支持元素名、属性。例如自定义指令my-dir
+	<my-dir></my-dir>
+	<span my-dir="exp"></span>
+1.系统指令
+	ng-app
+		使用该指令自动启动一个AngularJS应用。ngapp指令指定应用程序的根元素，通常放置在网页的根元素如body或html标签。只有一个AngularJS应用可以自动引导一个HTML文档。如果ngapp指令不被放置在HTML元素上，该文件不会被编译。
+	ng-controller
+		设置对应的controller控制器，控制器对视图进行操作。
+	ng-repeat
+		ngrepeat实例化一个模板集合中的每项。每个模板实例都有其自己的scope，其中给定的循环变量设置为当前集合项目，并将$index为项目索引。
+		<li ng-repeat="name in person.friends">{{name}}</li>
+		属性：
+			$index 	循环的索引值
+			$first 	是否第一次循环
+			$middle 是否第一次和最后一次循环之间的循环。
+			$last 	是否最后一次循环。
+			$even 	是否循环的次数$index为偶数。
+			$odd 	是否循环的次数$index为奇数 
+	ng-switch
+		ngSwitch指令包含ng-switch、ng-switch-when、ng-switch-default功能类似switch，ng-switch指要判断的值，ng-switch-when指条件条件符合将显示这个dom元素， ng-switch-default指条件都不符合默认显示的元素。 
+
+		<ul ng-switch="data.gender">
+            <li ng-switch-when="male">周一</li>
+            <li ng-switch-when="female">周二</li>
+            <li ng-switch-default>非法输入</li>
+        </ul>
+    ng-model
+    	双向数据绑定
+	ng-bind
+		设置ngbind属性，angular会将ngbind的值替换掉标签的内容。通常情况下，不使用ngbind属性，而是使用双大括号{{}}。如果网速比较慢浏览加载angularjs之前会显示原始形态时，最好用ngbind来代替，因为ngbind是元素的属性，加载的时候看不到。
+	ng-bind-html
+		var app  = angular.module("app",[]);
+		app.controller("oneCtrl",function($scope){
+            $scope.data = {
+                one:'<p style="color:blue">an html<em onmouseover="this.textContent=123">click here</em>snippet</p>'
+            }
+        });
+        <div ng-controller="oneCtrl">
+	        <div ng-bind-html="data.one"></div>
+	    </div>
+
+		为了让以上内容能够运行，需要 导入angular-sanitize.js(或者.min.js)，同时还用导入一个对ngSanitize的模块依赖。有一个很重要的东西需要注意，style标签（蓝色）以及<em>标签上的onmouseover处理器都被AngulsrJS删除掉了，这是因为AngularJS认为它们是不安全的。
+		var app  = angular.module("app",["ngSanitize"]);
+	ng-bind-template
+		可以包含多个{{}}表达式
+		<div ng-bind-template="{{data.one}},{{data.two}}"></div>
+	ng-show
+		用于设置应用中的一部分是否可见 。
+		ng-show="false" 可以设置 HTML 元素 不可见。
+		ng-show="true" 可以以设置 HTML 元素可见。
+	ng-hide
+		用于设置应用中一部分是否隐藏
+	ng-blur
+		定义了 AngularJS 失去焦点事件
+	ng-focus
+		定义了 AngularJS 获得焦点事件
+	ng-submit
+		定义了 AngularJS 表单提交事件
+	ng-change
+		定义了 AngularJS model的值改变时触发的事件。
+	ng-click
+		定义了 AngularJS 单击事件。
+	ngd-blclick
+		定义了 AngularJS 双击事件。
+	ng-keydown
+		定义了 AngularJS 键盘按下事件。
+	ng-keyup
+		定义了 AngularJS 键盘抬起事件。
+	ng-keypress
+		定义了 AngularJS 按键事件。
+	ng-mousedown
+		定义了 AngularJS 鼠标按下事件。
+	ng-mouseup
+		定义了 AngularJS 鼠标抬起事件。
+	ng-mouseenter
+		定义了 AngularJS 鼠标移入事件。
+	ng-mouseleave
+		定义了 AngularJS 鼠标移开事件。
+	ng-mouseout
+		定义了 AngularJS 鼠标移开事件。
+	ng-mouseover
+		定义了 AngularJS 鼠标移入事件。
+
+2.自定义指令
+	当你有大量代表自定义信息的模板。这个模板在你的代码中重复了很多次，当你改变一个地方的时候，你不得不在其他地方同时改动，这时候，你就要使用指令来简化你的模板。和控制器一样，指令也是注册在模块上的。要注册一个指令，你可以用module.directive API。 module.directive 接受规范化normalized的指令名字和工厂方法。此工厂方法应该返回一个带有不同选项的对象来告诉 编译器$compile此指令被匹配上该做些什么。工厂函数仅在编译器第一次匹配到指令的时候调用一次.你可以在这里进行初始化的工作。 该函数使用$injector.invoke调用，所以它可以像控制器一样进行依赖注入。
+
+	1) 简单指令(template)
+		app.directive('myFirst',function ($http,studentServie) {
+			return {
+				template:studentService.students.join('.')
+			}
+		});
+		<div my-first = 'one'></div>
+		<my-first></my-first>
+
+	2) 指令模板(templateUrl)
+		templateUrl
+			模板的url路径
+		restrict可以设置指令是由属性名触发还是由元素名触发
+		    'A' - 仅匹配属性名
+		    'E' - 仅匹配元素名
+		    'AE' - 既匹配属性名又匹配元素名
+
+	tpl1.html
+	    	<style>
+			    table{
+			        width:400px; border-collapse: collapse}
+			    th,td{
+			        border:1px solid silver;}
+			</style>
+			<table>
+			    <tr>
+			        <th>学号</th>
+			        <th>姓名</th>
+			        <th>性别</th>
+			        <th>年龄</th>
+			    </tr>
+			    <tr>
+			        <td>1001</td>
+			        <td>张三</td>
+			        <td>男</td>
+			        <td>19</td>
+			    </tr>
+			</table>
+
+		app.directive("mySecond", function () {
+            return {
+                templateUrl:"tpl1.html"
+            }
+        });
+
+    	<my-second></my-second>
+
+    3) 复杂指令
+    	模板中的作用域是当前控制器的作用域，如果我们想把指令的作用域与外部的作用域隔离开来，然后映射外部的作用域到指令内部的作用域。 可以通过创建独立作用域(isolate scope)来达到这个目的
+    	1.在directive中创建隔离scope
+    		angular.module('app').controller('myController', function ($scope) {
+    			$scope.user = {
+    				id:1,
+    				name:'hello world'
+    			};
+    		}).directive('isolatedScope', function () {
+    			return {
+    				scope: {},
+    				template: 'Name: {{user.name}} Street: {{user.addr}}'
+    			};
+    		});
+    		在指令中将不能访问控制器作用域中的user 
+		2.隔离scope和父scope交互
+		    1) @ 绑定一个局部 scope 属性到当前 dom 节点的属性值。结果总是一个字符串，因为 dom 属性是字符串。
+		    	app.directive("mySecond", function () {
+		            return {
+		                restrict: 'AE',
+		                scope:{
+		                    msg:"@"  
+		                },
+		                template:"{{msg}}<input type='text' ng-model='msg'/>"
+		            }
+		        });
+		    	<my-second msg="hello"></my-second>
+		    	表示指令模板中的msg将与控制器中的msg属性的值进行单向数据绑定，hello为字符串
+
+	    	2) = 通过 directive 的 attr 属性的值在局部 scope 的属性和父 scope 属性名之间建立双向绑定。
+		    	app.controller("twoCtrl",function($scope){
+		            $scope.msg = "hello";
+		        }).directive("mySecond", function () {
+		            return {
+		                scope: {
+		                    msg: "="
+		                },
+		                template: '内部：{{msg}} <input type="text" ng-model="msg"/>'
+		            }
+	        	});
+
+	        	<div ng-controller="twoCtrl">
+			        外部：{{msg}}<input type="text" ng-model="msg"/>
+			        <br/>
+			        <div my-second msg="msg"></div>
+			    </div>
+			    表示指令模板中的msg将与控制器中的msg属性的值进行单向数据绑定，msg为变量，指向控制器中的msg
+
+    4) 指令中引入标签内容
+		transclude:true表示嵌入的意思，ng-transclude指明的是一个插入的位置；指令中标签里的元素都会先删除然后被嵌入包含后的内容所替换。
+
+		angular.module('app', [])
+        .controller('Ctrl', function($scope) {
+            $scope.name = 'Tobias';
+        })
+        .directive('myDialog', function() {
+            return {
+                restrict: 'E',
+                transclude: true,
+                scope: {
+                    title:"@"
+                },
+                template: '<div style="border: 1px solid black;">' +
+                            '<div style="background-color: gray"> {{title}}</div>' +
+                            '<div ng-transclude></div>' +
+                            '</div>'
+            };
+        });
+
+        <div ng-controller="Ctrl">
+	        <my-dialog title="标题：">我是文档</my-dialog>
+	    </div>
+
+	5) 操作DOM的指令
+ 		指令修改DOM通常是在link选项中，link选项接受一个带有如下签名的函数function link(scope,element,attrs) {} 其中： scope 是一个Angular的scope对象. element 指令匹配的jqLite封装的元素(angular内部实现的类jquery的库) * attrs 是一个带有规范化后属性名字和相应值的对象.

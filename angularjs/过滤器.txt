@@ -1,0 +1,62 @@
+过滤器
+1)作用：
+		过滤器用来格式化表达式中的值。它可以用在视图模板(templates)、控制器(controllers)或者服务(services)中。
+2)使用：
+	1. 在视图模板中的表达式中，按如下的格式：
+		{{ 表达式 | 过滤器名 }}
+		例如
+			在"{{ 12 | currency }}"
+			标记中格式化了数字12作为一种货币的形式来显示，它使用了currency过滤器。格式化之后的结果是"$12.00"。 如果想要出现"￥12.00"必须导入i18n库
+
+		过滤器可以应用在另外一个过滤器的结果之上。这叫做“链式”使用，按如下格式：
+    	{{ 表达式 | 过滤器1 | 过滤器2 | ... }}
+
+		过滤器可以拥有（多个）参数，按如下格式：
+	    {{ 表达式 | 过滤器:参数1:参数2:... }}
+	2. 在控制器和服务中使用过滤器。	
+		1) 在你的控制器或者服务中添加以“<过滤器名>Filter”为名的依赖。
+			app.controller("oneCtrl",function ($scope,currencyFilter) {
+	            console.log(currencyFilter(12));
+	        });
+        2) 使用$filter服务来获取对应的过滤器
+        	app.controller("oneCtrl",function ($scope,$filter) {
+	            console.log($filter('currency')(12));
+	        });
+
+3)系统过滤器
+1. filter
+		Selects a subset of items from array and returns it as a new array.
+		语法：
+		$filter('filter')(array, expression)
+		{{ filter_expression | filter : expression }}
+		参数：
+			filter_expression	表达式
+			filter 		过滤器
+			expression: 筛选条件
+				string: 
+					The string is used for matching against the contents of the array. All strings or objects with string properties in array that match this string will be returned. 
+				Object:
+					 A pattern object can be used to filter specific properties on objects contained by array
+				function(value, index):
+					A predicate function can be used to write arbitrary filters. The function is called for each element of array. The final result is an array of those elements that the predicate returned true for
+2. currency
+	$filter('currency')(amount, symbol, fractionSize)
+	{{ currency_expression | currency : symbol : fractionSize}}
+	例如：
+		$filter('currency')(12,"*",3)	//* 12.000
+3.data
+	$filter('date')(date, format, timezone)
+	{{ date_expression | date : format : timezone}}
+	例如：
+		$scope.date = new Date();
+		{{date|date}}	//2017年6月29日 
+4.json
+	$filter('json')(object)
+	{{ json_expression | json }}
+	例如：
+		$scope.model = {name:'Mike', phone:'555-4321'};
+		{{model|json}}
+		//{ "name": "Mike", "phone": "555-4321" } 
+5.limitTo
+	$filter('limitTo')(input, limit, begin)
+	{{ limitTo_expression | limitTo : limit : begin}}

@@ -1,0 +1,70 @@
+AngularJS介绍:
+
+1>what
+	在Web开发ngularJS领域，我们一般使用HTML作为前端页面元素的声明式语言，使用CSS技术作为展示样式的描述语言，Javascript作为业务处理交互的命令式语言。当我们构建非常复杂的Web应用时，纯粹而有限的HTML就显得非常不足，Javascript本身也会随着项目代码量的膨胀而难以维护和管理，研发工期和成本也会随之难以控制。这时候，我们一般使用一些类库（例如JQuery、Dojo等）或框架（例如Backbone、Ember、ExtJS等）来提升开发效率，进而降低项目的工期和成本，也方便后续的维护和管理。
+
+	而AngularJS不仅是一个理念先进（逼格高）的前端开发框架，更是一种端对端（End to End）的解决方案。AngularJS遵从架构设计中的MVC模式，提倡展现、数据和逻辑处理组件的松耦合（类似Flex和WPF）。AngularJS通过指令技术对传统HTML实现了自然扩展，通过编译技术实现了数据模型与展现视图的双向自动同步，从而消除了前端开发中繁琐复杂的DOM操作（想想看那些一片片的selector）。最后再通过模块化设计解决了JS代码管理维护和按需加载的问题，解放了广大前端程序员（以及后端程序员）同胞完成前端开发任务的生产力。而且这种解耦本身，也对前端的自动化测试技术提供了良好的支持。
+
+2>AngularJS特点
+	1) 上手简单：
+		通过学习AngularJS的一些概念和常见用法，即可在不需要大量了解DOM操作的情况下开发前端Web应用。
+	2) 开发效率：
+		一方面AngularJS相对于传统前端开发能减少大量的操作代码（双向绑定、自动注入），另一方面也通过前后端分离、合理的模块化组织项目结构降低了耦合、使开发者更关注于每一个具体的逻辑本身，从而加快了开发速度，也利于提升系统的质量。
+	3) 运行效率：
+		纯静态化便于前后端的缓存优化，按需加载也降低服务端IO的压力。当然不得不提的是，如果双向绑定的数据对象数据过多，比如多于2000个，会导致浏览器页面的渲染速度较慢。对于这一点，由于一页内展示可见的区域有限、并且用户一个时间点能关注内容也有限，我们一般可以采用数据分页加载等方式降低一次绑定的数据对象数量。
+	4) 适用范围：
+		我们知道软件领域没有银弹，没有一种东西能解决一个大领域里的所有问题。所以，AngularJS也有自己的适用范围。比如像Web游戏、在线图形编辑等这些需要频繁操作DOM的前端，就不适合用AngularJS来开发。一般来说，AngularJS特别适合基于CRUD的业务系统Web应用的前端开发，而且幸运的是目前这个地球上绝大部分的Web应用是这种。
+
+3>AngularJS核心特性
+	1.MVVM模式
+	2.模块化
+	3.指令系统
+	4.双向数据绑定
+
+4>数据绑定
+	1) 通过表达式来绑定
+		AngularJS 使用表达式把数据绑定到 HTML。
+		表达式使用"{{}}"来表示，AngularJS表达式很像JavaScript表达式：它们可以包含文字、运算符和变量。但是AngularJS表达式不支持条件判断，循环及异常。
+
+		app.controller("oneCtrl",function($scope){
+			$scope.person = {
+				name:"terry",
+				age:12,
+				friends:["larry","tom","jacky"]
+			}
+		});
+
+		<div>{{"姓名："+person.name+",年龄："+person.age}}</div>
+
+	2) 通过数据绑定指令来绑定
+		ng-bind
+			为一个html元素绑定innerText属性
+		ng-model
+			双向数据绑定,常用于表单元素（input,textarea,select）
+			数据模型的属性上的变化被传播到所有的相关绑定上，以保证在整个应用中保持同步。
+	3） 通过模板指令来绑定
+		AngularJS提供了一组可用模板生成HTML元素的指令，使得数据集合能够方便绑定到模板中
+		
+		1. ng-repeat
+			ngrepeat实例化一个模板集合中的每项。每个模板实例都有其自己的scope，其中给定的循环变量设置为当前集合项目，并将$index为项目索引。
+			<li ng-repeat="name in person.friends">{{name}}</li>
+			属性：
+				$index 	循环的索引值
+				$first 	是否第一次循环
+				$middle 是否第一次和最后一次循环之间的循环。
+				$last 	是否最后一次循环。
+				$even 	是否循环的次数$index为偶数。
+				$odd 	是否循环的次数$index为奇数 
+
+				<ul>
+		            <li ng-repeat="name in data.arr">{{$index+name}}</li>
+		        </ul>
+
+		2. ng-switch
+			ngSwitch指令包含ng-switch、ng-switch-when、ng-switch-default功能类似switch，ng-switch指要判断的值，ng-switch-when指条件条件符合将显示这个dom元素， ng-switch-default指条件都不符合默认显示的元素。 
+
+			<ul ng-switch="data.gender">
+	            <li ng-switch-when="male">周一</li>
+	            <li ng-switch-when="female">周二</li>
+	            <li ng-switch-default>非法输入</li>
+	        </ul>	
