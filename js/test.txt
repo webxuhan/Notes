@@ -1,0 +1,183 @@
+1.基本数据类型
+  引用数据类型(JS中内置对象有哪些)
+	Object
+		Date
+		Function
+		Array
+		RegExp
+		Math
+		包装器函数Number,Boolean,String
+
+2.回调函数---理解
+	arr.sort(function(a,b){
+				
+			});
+	我们调用arr的sort方法，sort方法在执行过程中又需要调用我们提供匿名方法
+
+3.基本包装类型
+	1>为了便于操作基本类型值，ECMAScript提供了3个特殊的引用类Boolean, Number, String
+	基本数据类型	包装器数据类型(引用)
+	undefined			无
+	null				无
+	number			Number
+	boolean			Boolean
+	string			String
+	每当读取一个基本类型值的时候，后台就会创建一个对应的基本包装类型对象,操作如下：
+		a.创建String类型的一个实例
+		b.在实例上调用指定的方法
+		c.销毁这个实例
+4. 函数在内存中的表示
+	var arr = new Array(1,2,3);
+	arr对象，由Array构造函数构建的
+	Array{
+		本身对象
+		Array.prototype
+	}
+	arr -> Array.prototype ->Object.prototype
+
+5. JS内置对象/函数有哪些
+	内置函数
+		Object
+			Object.prototype={
+				toString
+				valueOf
+				hasOwnProperty
+				...
+			}
+			var o = {};	
+			o可以调用Object.prototype中函数
+		Function
+			Function.prototype={
+				call
+				apply
+				length
+			}
+			var add = function(){}
+			add.length
+		Array
+			Array.prototyp={
+				length
+				push
+				pop
+				shift
+				unshift
+				slice
+				splice
+				sort
+				reverse
+				concat
+				迭代
+			}
+		RegExp
+			RegExp.prototype={
+				exec()
+				test()
+				lastIndex
+				ignoreCase
+				global
+				multiline
+			}
+
+6.原型中constructor属性作用？
+				1.为实例对象提供访问构造函数的方法
+				2.区分对象
+			原型的作用：
+				用来存放所有实例对象共享的属性和方法
+
+7.混合模式
+		构造函数：属性
+		原型对象：方法
+		function Person(){
+			this.属性1 = 值1;
+			this.属性2 = 值2;
+		}
+		Person.prototype = {
+			constructor:Person,
+			方法1:function(){},
+			方法2:function(){}
+		};	
+
+8.跨浏览器的事件处理程序
+ 	var EventUtil={
+ 		//添加事件
+ 		addHandler:function(element,type,handler){
+ 			if(element.addEventListener){
+ 				element.addEventListener(type,handler,false);
+ 			}else if(element.attachEvent){
+ 				element.attachEvent("on"+type,handler);
+ 			}else{
+ 				element["on"+type]=handler;
+ 			}
+ 		},
+ 		//移出事件
+ 		removeHandler:function(element,type,handler){
+ 			if(element.removeEventListener){
+ 				element.removeEventListener(type,handler,false);
+ 			}else if(element.detachEvent){
+ 				element.detachEvent("on"+type,handler);
+ 			}else{
+ 				element["on"+type] = null;
+ 			}
+ 		},
+ 		//返回事件对象
+ 		getEvent:function(event){
+ 			return event?event:window.event;
+ 		},
+ 		//获取目标
+ 		getTarget:function(event){
+ 			return event.target || event.srcElement;
+ 		},
+ 		//阻止默认行为
+ 		preventDefault: function(event){
+ 			if(event.preventDefault){
+ 				event.preventDefault();
+ 			}else{
+ 				event.returnValue = false;
+ 			}
+ 		},
+ 		//阻止事件冒泡
+ 		stopPropagation(event){
+ 			if(event.stopPropagation){
+ 				event.stopPropagation();
+ 			}else{
+
+ 				event.cancelBubble = true;
+ 			}
+ 		}
+ 	}
+9.闭包
+	function test(){
+			var arr = [];
+			for(var i=0;i<3;i++){
+				arr[i] = function(){
+					alert(i);
+				}
+			}
+			return  arr;
+	    }
+	    var fns = test();
+	    for(var key in fns){
+			arr[key]();	//每次弹框内容均为3
+	    }
+	    这段代码中，function(){alert(i)}的闭包为
+	    {
+	      	该函数的引用，
+	      	变量对象:{
+				arr:[],
+				i:
+	      	}
+	    }
+
+	解决办法：	//每次弹框内容分别为0,1,2
+	    function test(){
+	        var arr = [];
+	        for(var i=0;i<3;i++){
+			    arr[i] = (function(num){
+				return function(){
+						alert(num);
+				}})(i);
+	        }
+	        return  arr;
+        }  
+
+

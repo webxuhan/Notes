@@ -1,0 +1,97 @@
+1>基本数据类型
+undefind == Null ,undefind派生自null值
+Boolean 
+Number
+String
+
+2>typeof操作符
+可区分object 与 function
+
+3>语句
+	(1)流程控制语句[分支语句]
+	if语句
+		if(condition){
+			statemnet1
+		}else{
+			statement2
+		}
+	switch语句
+		switch(exxpression){
+			case val:
+
+				break;
+			case val2:
+
+				break;
+			default:
+		}
+
+	(2)循环语句[初始化条件，结束判断条件，迭代语句]
+		1.for语句
+		for(初始化条件，结束判断条件，迭代条件){
+			//循环体
+		}
+		死循环
+			for(;;){
+				//当for中的表达式省略时，会创建一个死循环
+			}
+			while(true){
+
+			}
+		2.do-while语句
+			初始化条件;
+			do{
+				//循环体
+				循环迭代
+			}while(condition);
+		3.while语句
+			while(结束判断条件){
+				循环体
+				迭代条件
+			}
+		4.for-in语句
+			for(var propNmae in window){
+				console.log(propName);
+			}
+		5.label 语句[使用label可以在代码中添加标签，以便将来使用]
+			label: for(int i=0;i<10;i++){
+				if(i == 5){
+					break label;
+				}
+			}
+4>操作符
+	(1)一元操作符  ++(递增), --(递减),+(相当于调用Number()),-
+	(2)布尔操作符	非(NOT) 逻辑非 ! ,逻辑与 && ,逻辑或 ||
+	(3)加性操作符[返回值都是number] + -
+		拼接操作符[返回值都是字符串]	字符串+操作数
+	(4)乘性操作符	* / %
+		返回值为[数值类型]当操作数为非数值时执行自动的类型转化Number()
+	(5)相等操作数,返回【Boolean】==,!= (先转换再比较) ===
+	(6)赋值运算符 =
+	(7)逗号操作符 可以在一条语句中执行多个操作
+	(8)三目运算符 ? :
+
+5>对象[一组数据(属性)和功能(方法)的集合]
+	1.对象[object]
+	(1)创建方式:构造函数创建;对象字面量创建
+	(2)对象属性的访问:
+		gf.name 
+		gf["name"]
+	(3)对象属性的遍历
+		for(var key in obj){
+			var val = obj[key];
+		}
+	(4)动态添加，删除属性
+		delete
+	(5)检测属性
+		in 检测属性是否是某对象的自由属性或者继承属性
+		hasOwnproperty() 检测给定的属性是否为自有属性
+		propertyIsEnumerable() 检测给定的属性是否为自有属性,并且可枚举
+	(6)方法
+		hasOwnProperty(propertyName);
+		propertyIsEnumberable(propertyName);
+		vauleOf(); 返回对象的字符串，数值，布尔值的表示
+		constructor: 保存用户创建当前对象的函数
+		isPrototypeOf(obj): 
+	
+
