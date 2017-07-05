@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽效果</title>
+	<style>
+		*{margin:0; padding: 0}
+		.box{width: 300px;height: 300px;background: #ccc;position: absolute;}
+		#p{width: 300px;height: 50px;background: blue;font: bold 22px/50px "宋体";text-align: center; }
+	</style>
+	<script>
+		/*
+			思路：
+				1.当页面加载完成后获取所要操作的节点对象
+				2.给box一个鼠标按下onmousedown事件
+					在该事件里面创建一个document的onmousemove事件
+					当鼠标移动时，改变box.style.left和box.style.top值
+					使其跟随鼠标移动，并创建一个数组，记录下其移动位置
+				3.给box一个鼠标弹起事件onmouseup
+					当鼠标弹起时，清除onmousemove事件
+				4.给回放按钮添加一个onclick事件，当点击回放时，从数组取出数据赋值给box.style.left和box.style.top
+		*/
+		window.onload = function(){
+			//获取所要操作的节点对象
+			var box = document.getElementById("box");
+			var p = document.getElementById("p");
+			var hf = document.getElementById("hf");
+			var route = []; //设置数组存储路径
+			box.onmousedown = function(e){
+				var e = e||window.event;
+				var startX = e.offsetX;  //获取鼠标点击那一时刻的x坐标
+				var startY = e.offsetY;  //获取鼠标点击那一时刻的y坐标
+				// console.log(startX,startY);
+				//由于FF中不支持offsetX，offsetY;故startx,starty应写成如下方式：
+				var startX = e.clientX - box.offsetLeft;
+				var startY = e.clientY - box.offsetTop;
+				// console.log(startX,startY);
+				document.onmousemove = function(e){
+					var e = e||window.event;
+					var x = e.clientX; //获取鼠标当前窗口的x坐标
+					var y = e.clientY; //获取鼠标当前窗口的y坐标
+					var bx = x - startX;
+					var by = y - startY;
+					box.style.left = bx + "px";
+					box.style.top = by + "px";
+					var obj = {left:bx,top:by}; //设置一个对象来存储当前坐标
+					route.push(obj);
+				}
+			}
+
+			//回放功能的实现
+			hf.onclick = function(){
+				var timer = setInterval(function(){
+					if(route.shift()){
+						box.style.left = route.shift().left +"px";
+						box.style.top = route.shift().top + "px";
+					}else{
+						clearInterval(timer);
+						return ;
+					}
+				},20)
+			}
+
+			box.onmouseup = function(){
+				document.onmousemove = null;
+				//获取鼠标弹起时刻的box坐标
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="box" id="box">
+		<p id="p">您好，拖拽我试试效果吧</p>
+		<a href="#" id="hf">回放</a>
+	</div>
+</body>
+</html>
