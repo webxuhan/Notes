@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue-filter</title>
+	<script src="vue.js"></script>
+	<script>
+		window.onload = function(){
+			var box = new Vue({
+				data:{}
+			}).$mount("#box");
+		}
+	</script>
+</head>
+<body>
+	<div id="box">
+		{{'hello world'|uppercase}}
+		<br>
+		{{'HELLO WORLD'|lowercase}}
+		<br>
+		{{'HELLO WORLD'|lowercase|capitalize}}
+		<br>
+		{{12|currency}}
+		<br>
+		{{12|currency '￥'}}
+	</div>
+</body>
+</html>

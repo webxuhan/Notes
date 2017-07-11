@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <script>
+        window.onload = function(){
+            new Vue({
+                el:'#box',
+                data:{
+                    arr:['apple','banana','orange','pear'],
+                    arr1:['apple','banana','orange','pear'],
+                    json:{a:'apple',b:'banana',c:'orange'}
+
+                },
+                methods:{
+                    add: function(){
+                        this.arr.push('tomato');
+                    },
+                    add1: function(){
+                        this.arr1.push('tomato');
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <input type="button" value="单击按钮" v-on:click="add()">
+        <br>
+        <ul>
+            <li v-for='value in arr'>
+                {{value}} {{$index}} {{$key}}
+            </li>
+        </ul>
+        <input type="button" value="双击按钮" v-on:dblclick="add1()">
+        <br>
+        <ul>
+            <li v-for='value in arr1'>
+                {{value}} 
+            </li>
+        </ul>
+        <br>
+        <ul>
+            <li v-for='value in json'>
+                {{value}} {{$index}} {{$key}}
+            </li>
+        </ul>
+        <br>
+        <ul>
+            <li v-for="(k,v) in json">
+                {{k}} {{v}} {{$idnex}} {{$key}}
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

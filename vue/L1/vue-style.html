@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue-style</title>
+	<style>
+		.red{
+			color: red;
+		}
+		.blue{
+			background: blue;
+		}
+	</style>
+	<script src="vue.js"></script>
+	<script>
+		window.onload = function(){
+			new Vue({
+				el: '#box',
+				data:{
+					c:{color:'yellow'},
+					b:{backgroundColor:'blue'},
+					a:{
+						color:'red',
+						backgroundColor:'gray'
+					}
+				}
+			})
+		}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<strong :style="{color:'red'}">文字...</strong>
+		<strong :style='[c]'>文字。。。</strong>
+		<strong :style='[c,b]'>文字。。。</strong>
+		<strong :style='a'>我呢这种。。。</strong>
+	</div>
+</body>
+</html>

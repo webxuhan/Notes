@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue-class</title>
+	<style>
+		.red{
+			color: red
+		}
+		.blue{
+			background: blue
+		}
+	</style>
+	<script src="vue.js"></script>
+	<script>
+		window.onload = function(){
+			new Vue({
+				el:'#box',
+				data:{
+					red: 'red',
+					b:'blue',
+					t:true,
+					f:false,
+					json:{
+						red:true,
+						blue:true
+					}
+				},
+				methods:{
+
+				}
+			})
+		}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<strong :class='[red]'>红色字体。。。。</strong>
+		<strong :class='[red,b]'>红色字体。。。。</strong>
+		<strong :class='{red:true,blue:true}'>红色字体。。。。</strong>
+		<strong :class='{red:t,blue:f}'>红色字体。。。。</strong>
+		<strong :class='json'>红色字体。。。</strong>
+	</div>
+</body>
+</html>

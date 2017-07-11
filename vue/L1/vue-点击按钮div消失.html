@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <script>
+        window.onload = function(){
+            new Vue({
+                el:'#box',
+                data:{
+                    msg:'abc1'
+                },
+                method:{
+                    
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <input type="button" value="按钮">
+        <div style="width:100px; height:100px; background: red" v-show="false"></div>
+    </div>
+</body>
+</html>

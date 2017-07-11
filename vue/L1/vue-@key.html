@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>键盘事件</title>
+	<script src="vue.js"></script>
+	<script>
+		window.onload = function(){
+			new Vue({
+				el:"#app",
+				data:{
+
+				},
+				methods:{
+					show:function(){
+						alert("键出");
+					},
+					show1:function(ev){
+						alert(ev.keyCode);
+					},
+					show2:function(ev){
+						if(ev.keyCode == 13){
+							alert("您按回车了");
+						}
+					},
+					show3:function(ev){
+						alert('您按回车了');
+					}
+				}
+			})
+		}
+	</script>
+</head>
+<body>
+	<div id="app">
+		<input type="text" @keyup="show()" placeholder="">
+		<br>
+		<input type="text" @keyup="show1($event)" placeholder="检测键盘键值">
+		<br>
+		<input type="text" @keyup="show2($event)" placeholder="请按回车">
+		<br>
+		<input type="text" @key.13='show()' placeholder="回车方式2">
+	</div>
+</body>
+</html>
