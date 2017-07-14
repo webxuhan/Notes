@@ -33,13 +33,17 @@
 </head>
 <body>
 	<div id="app">
-		<input type="text" @keyup="show()" placeholder="">
+		<input type="text" @keyup="show()" placeholder="键出">
 		<br>
 		<input type="text" @keyup="show1($event)" placeholder="检测键盘键值">
 		<br>
 		<input type="text" @keyup="show2($event)" placeholder="请按回车">
 		<br>
-		<input type="text" @key.13='show()' placeholder="回车方式2">
+		<input type="text" @key.13='show3()' placeholder="回车方式2">
+		<br>
+		<input type="text" @key.enter='show3()' placeholder="回车方式3">
+		<br>
+		<input type="text" @keyup.left='show()' placeholder="键出左方向键">
 	</div>
 </body>
 </html>
